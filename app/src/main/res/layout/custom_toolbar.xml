@@ -52,7 +52,7 @@
             android:fontFamily="@font/roboto_light"
             android:gravity="center"
             android:orientation="horizontal"
-            android:text="ІП-54"
+            android:text="ІП-53"
             android:textColor="@color/white"
             android:visibility="visible" />
 

@@ -16,7 +16,7 @@ class SearchPresenter(val source: ISearchDataSource) : BasePresenter<GroupSearch
 
         subscribe(source.getGroups(str)
                 .retryWhen(RxRetryWithDelay())
-                .map<List<String>> { ResponseToGroupList.parse(it) }
+                .map<Map<String, String>> { ResponseToGroupList.parse(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ view?.showPredictions(it) })

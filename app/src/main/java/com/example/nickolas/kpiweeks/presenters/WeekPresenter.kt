@@ -10,13 +10,13 @@ import rx.schedulers.Schedulers
 
 
 class WeekPresenter(val source: IWeekDataSource) : BasePresenter<WeekView>() {
-    fun getSchedule(group: String) {
+    fun getSchedule(group: String, week: Int) {
         subscribe(source.getSchedule(group)
                 .retryWhen(RxRetryWithDelay())
                 .subscribeOn(Schedulers.io())
-                .map<Week>{ResponseToSchedule.parse(it)}
+                .map<MutableList<Week>>{ResponseToSchedule.parse(it)}
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({view?.showSchedule(it)}))
+                .subscribe({view?.showSchedule(it[week])}))
     }
 
 }

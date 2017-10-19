@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/gray">
+    android:background="@color/gray"
+    android:id="@+id/lessons_container"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/day_and_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="6dp"
-        android:fontFamily="@font/roboto_condensed_light"
+        android:fontFamily="@font/roboto_condensed_regular"
         android:text="Понеділок 16.10"
+        android:textColor="#1b1b1b"
+        android:textSize="16sp"
         android:textStyle="bold" />
-    <include layout="@layout/lesson_view"/>
+
+    <!--<include layout="@layout/lesson_view"/>-->
 
 </LinearLayout>
