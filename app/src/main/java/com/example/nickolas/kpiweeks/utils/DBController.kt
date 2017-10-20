@@ -38,9 +38,9 @@ public class DBController private constructor() {
     fun insert( value: String) {
         val cv = ContentValues()
         cv.put("val", value)
-        db?.beginTransaction();
+        db?.beginTransaction()
         db?.insert("schedule", null, cv)
-        db?.endTransaction();
+        db?.endTransaction()
     }
 
     fun read(): String {

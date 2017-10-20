@@ -24,9 +24,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 
 public class WeekFragment extends Fragment implements WeekView{
 
@@ -35,12 +32,12 @@ public class WeekFragment extends Fragment implements WeekView{
 //    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     WeekAdapter weekAdapter;
-    int v;
+    int week;
     String id;
 
     public static WeekFragment newInstance(int c, String id){
         WeekFragment weekFragment = new WeekFragment();
-        weekFragment.v = c;
+        weekFragment.week = c;
         weekFragment.id = id;
         return weekFragment;
     }
@@ -75,7 +72,7 @@ public class WeekFragment extends Fragment implements WeekView{
 
         weekAdapter = new WeekAdapter(container.getContext());
         recyclerView.setAdapter(weekAdapter);
-        presenter.getSchedule(id, v);
+        presenter.getSchedule(id, week);
 
         return view;
     }

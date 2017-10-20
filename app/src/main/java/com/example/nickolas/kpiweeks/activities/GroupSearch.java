@@ -112,6 +112,8 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
         });
     }
 
+
+
     @NotNull
     @Override
     public Context getContext() {

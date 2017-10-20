@@ -1,19 +1,16 @@
 package com.example.nickolas.kpiweeks.utils
 
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 
 
-/**
- * Created by Nickolas on 19.10.2017.
- */
-class DBHelper(context: Context) : SQLiteOpenHelper(context, "myDB", null, 1) {
+class DBHelper(var context: Context) : SQLiteOpenHelper(context, "myDB", null, 1) {
 
     override fun onCreate(db: SQLiteDatabase) {
-
-        db.execSQL("create table schedule ("
+        db.execSQL("create table IF NOT EXISTS schedule ("
                 + "id integer primary key autoincrement,"
                 + "val text"
                 + ");")

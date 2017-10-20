@@ -41,7 +41,7 @@ class ResponseToSchedule {
             if (!str.contains("data"))
                 list = GsonBuilder().create().fromJson(str, typeOfHashMap)
             else{
-                var json = JsonParser().parse(str)
+                val json = JsonParser().parse(str)
                         .asJsonObject
                         .getAsJsonObject("data")
 
