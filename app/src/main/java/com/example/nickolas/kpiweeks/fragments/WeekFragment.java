@@ -1,9 +1,9 @@
 package com.example.nickolas.kpiweeks.fragments;
 
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,25 +17,24 @@ import com.example.nickolas.kpiweeks.di.component.DaggerPresentersComponent;
 import com.example.nickolas.kpiweeks.di.module.PresentersModule;
 import com.example.nickolas.kpiweeks.model.enteties.Week;
 import com.example.nickolas.kpiweeks.presenters.WeekPresenter;
-import com.example.nickolas.kpiweeks.utils.WeekAdapter;
 import com.example.nickolas.kpiweeks.views.WeekView;
+import com.example.nickolas.kpiweeks.widgets.adapters.WeekAdapter;
 
 import org.jetbrains.annotations.NotNull;
 
 import javax.inject.Inject;
 
 
-public class WeekFragment extends Fragment implements WeekView{
+public class WeekFragment extends Fragment implements WeekView {
 
     @Inject
     WeekPresenter presenter;
-//    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
     WeekAdapter weekAdapter;
     int week;
     String id;
 
-    public static WeekFragment newInstance(int c, String id){
+    public static WeekFragment newInstance(int c, String id) {
         WeekFragment weekFragment = new WeekFragment();
         weekFragment.week = c;
         weekFragment.id = id;
@@ -72,7 +71,7 @@ public class WeekFragment extends Fragment implements WeekView{
 
         weekAdapter = new WeekAdapter(container.getContext());
         recyclerView.setAdapter(weekAdapter);
-        presenter.getSchedule(id, week);
+        presenter.getSchedule(id, week, getActivity());
 
         return view;
     }
@@ -81,4 +80,6 @@ public class WeekFragment extends Fragment implements WeekView{
     public void showSchedule(@NotNull Week week) {
         weekAdapter.setWeek(week);
     }
+
+
 }

@@ -3,43 +3,57 @@ package com.example.nickolas.kpiweeks.activities;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.nickolas.kpiweeks.R;
 import com.example.nickolas.kpiweeks.fragments.WeekFragment;
-import com.example.nickolas.kpiweeks.utils.DBController;
-import com.example.nickolas.kpiweeks.utils.MyToolbar;
+import com.example.nickolas.kpiweeks.utils.DayInformationUtil;
+import com.example.nickolas.kpiweeks.utils.SharedPreferenceUtils;
+import com.example.nickolas.kpiweeks.widgets.holders.MyToolbarHolder;
 
 import java.util.Objects;
 
 public class ScheduleActivity extends AppCompatActivity {
 
-    MyToolbar myToolbar;
+    MyToolbarHolder myToolbar;
     private Bool firstInit = new Bool();
     private Bool secondInit = new Bool();
     private FragmentTransaction fragT;
     String name, id;
     Fragment currentFragment;
+    //    DBController controller;
+    public static SharedPreferenceUtils sharedPreferenceUtils;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
-        DBController.Companion.getInstance().initiate(this);
-        myToolbar = new MyToolbar(findViewById(android.R.id.content));
-        loadText();
+        sharedPreferenceUtils = SharedPreferenceUtils.getInstance(this);
+//        controller = DBController.Companion.getInstance();
+//        controller.initiate(this);
+        myToolbar = new MyToolbarHolder(findViewById(android.R.id.content));
+        myToolbar.getButtonText().setText("Вийти");
+        myToolbar.getBackButton().setOnClickListener(view -> {
+            firstInit.b = false;
+            secondInit.b = false;
+            deletePreferences();
+            startSearch();
+        });
+        loadPreferences();
         if (Objects.equals(name, "") || Objects.equals(id, "")) {
-            Intent intent = new Intent(this, GroupSearch.class);
-            startActivityForResult(intent, 1);
+            startSearch();
         } else {
             startAction();
         }
     }
 
+    private void startSearch() {
+        Intent intent = new Intent(this, GroupSearch.class);
+        startActivityForResult(intent, 1);
+    }
 
     private void startAction() {
         myToolbar.getTitle().setText(name.toUpperCase());
@@ -51,7 +65,11 @@ public class ScheduleActivity extends AppCompatActivity {
             else
                 changeFragment(secondInit, fragment2);
         });
-        changeFragment(firstInit, fragment1);
+        if (new DayInformationUtil().getWeekNumber() != 1) {
+            changeFragment(firstInit, fragment1);
+        } else {
+            myToolbar.getSwitch().performClick();
+        }
     }
 
     @Override
@@ -61,7 +79,7 @@ public class ScheduleActivity extends AppCompatActivity {
             name = bundle.getString("name");
             id = bundle.getString("id");
         }
-        saveText();
+        savePreferences();
         startAction();
         super.onActivityResult(requestCode, resultCode, data);
     }
@@ -78,16 +96,18 @@ public class ScheduleActivity extends AppCompatActivity {
     }
 
     @SuppressLint("ApplySharedPref")
-    private void saveText() {
-        SharedPreferences.Editor ed = getPreferences(Context.MODE_PRIVATE).edit();
-        ed.putString("name", name);
-        ed.putString("id", id);
-        ed.commit();
+    private void savePreferences() {
+        sharedPreferenceUtils.setValue("name", name);
+        sharedPreferenceUtils.setValue("id", id);
     }
 
-    private void loadText() {
-        name = getPreferences(Context.MODE_PRIVATE).getString("name", "");
-        id = getPreferences(Context.MODE_PRIVATE).getString("id", "");
+    private void loadPreferences() {
+        name = sharedPreferenceUtils.getStringValue("name", "");
+        id = sharedPreferenceUtils.getStringValue("id", "");
+    }
+
+    private void deletePreferences() {
+        sharedPreferenceUtils.clear();
     }
 
     private class Bool {

@@ -4,7 +4,7 @@ import okhttp3.ResponseBody
 import org.json.JSONObject
 
 
-class ResponseToGroupList {
+class ResponseToGroupListUtil {
     companion object {
         fun parse(response: ResponseBody): Map<String, String> {
             val arr: MutableMap<String, String> = HashMap()

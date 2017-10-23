@@ -3,13 +3,12 @@ package com.example.nickolas.kpiweeks.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -19,7 +18,6 @@ import com.example.nickolas.kpiweeks.di.component.AppComponent;
 import com.example.nickolas.kpiweeks.di.component.DaggerPresentersComponent;
 import com.example.nickolas.kpiweeks.di.module.PresentersModule;
 import com.example.nickolas.kpiweeks.presenters.SearchPresenter;
-import com.example.nickolas.kpiweeks.utils.MyToolbar;
 import com.example.nickolas.kpiweeks.views.GroupSearchView;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,18 +30,15 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-//import com.example.nickolas.kpiweeks.di.component.DaggerPresentersComponent;
-
 
 public class GroupSearch extends AppCompatActivity implements GroupSearchView {
 
     private ArrayAdapter adapter;
-    private ArrayList<String> group_names;
     private Map<String, String> grop_names;
-    private MyToolbar myToolbar;
     @Inject
     SearchPresenter presenter;
     AutoCompleteTextView autoCompleteTextView;
+    ArrayList<String> text;
 
 
 //    public void showPredictions(@NonNull List<String> strings) {
@@ -85,7 +80,6 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
                 .inject(this);
 
         presenter.setView(this);
-//        group_names = new ArrayList<>();
         grop_names = new HashMap<>();
     }
 
@@ -94,24 +88,44 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
         super.onStart();
 //        myToolbar = new MyToolbar(findViewById(android.R.id.content));
         autoCompleteTextView = findViewById(R.id.autocomplete);
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, group_names);
+        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, new ArrayList());
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.addTextChangedListener(new TextListener());
         autoCompleteTextView.setThreshold(1);
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent();
-                intent.putExtra("name",adapter.getItem(i).toString());
-                intent.putExtra("id", grop_names.get(adapter.getItem(i)));
-                setResult(RESULT_OK, intent);
-                finish();
-//                myToolbar.getTitle().setText(grop_names.get(adapter.getItem(i)));
-            }
+        autoCompleteTextView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = new Intent();
+            intent.putExtra("name", adapter.getItem(i).toString());
+            intent.putExtra("id", grop_names.get(adapter.getItem(i)));
+            setResult(RESULT_OK, intent);
+            finish();
         });
+        text = new ArrayList();
+        text.add("Живи");
+        text.add("Люби");
+        text.add("КПИ");
     }
 
+//    private void startTimerThread() {
+//        final int[] iterator = {0};
+//        Handler handler = new Handler();
+//        Runnable runnable = new Runnable() {
+//            public void run() {
+//                while (true) {
+//                    try {
+//                        Thread.sleep(5000);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                    handler.post(() -> {
+//                        hTextView.animateText(text.get(iterator[0]++));
+//                        if (iterator[0] == text.size())
+//                            iterator[0] = 0;
+//                    });
+//                }
+//            }
+//        };
+//        new Thread(runnable).start();
+//    }
 
 
     @NotNull

@@ -1,4 +1,4 @@
-package com.example.nickolas.kpiweeks.utils
+package com.example.nickolas.kpiweeks.utils.db
 
 import android.content.ContentValues
 import android.content.Context
@@ -39,7 +39,10 @@ public class DBController private constructor() {
         val cv = ContentValues()
         cv.put("val", value)
         db?.beginTransaction()
-        db?.insert("schedule", null, cv)
+        var result = db?.insert("schedule", null, cv)
+        if (result == (-1).toLong()){
+            println("asdasdasd")
+        }
         db?.endTransaction()
     }
 
@@ -47,9 +50,12 @@ public class DBController private constructor() {
         val c = db?.query("schedule", null, null, null, null, null, null)
         var res: String = ""
         if (c != null) {
-            c.moveToFirst()
-            res = c.getString(c.getColumnIndex("val"))
-            c.close()
+            try {
+                c.moveToFirst()
+                res = c.getString(c.getColumnIndex("val"))
+                c.close()
+            } catch (e: Exception) {
+            }
         }
         return res
     }

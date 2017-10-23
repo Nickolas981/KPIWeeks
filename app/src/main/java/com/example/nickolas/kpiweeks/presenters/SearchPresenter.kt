@@ -1,8 +1,7 @@
 package com.example.nickolas.kpiweeks.presenters
 
 import com.example.nickolas.kpiweeks.model.remote.ISearchDataSource
-import com.example.nickolas.kpiweeks.model.remote.SearchDataSource
-import com.example.nickolas.kpiweeks.utils.ResponseToGroupList
+import com.example.nickolas.kpiweeks.utils.ResponseToGroupListUtil
 import com.example.nickolas.kpiweeks.utils.rx.RxRetryWithDelay
 import com.example.nickolas.kpiweeks.views.GroupSearchView
 import rx.android.schedulers.AndroidSchedulers
@@ -16,7 +15,7 @@ class SearchPresenter(val source: ISearchDataSource) : BasePresenter<GroupSearch
 
         subscribe(source.getGroups(str)
                 .retryWhen(RxRetryWithDelay())
-                .map<Map<String, String>> { ResponseToGroupList.parse(it) }
+                .map<Map<String, String>> { ResponseToGroupListUtil.parse(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ view?.showPredictions(it) })

@@ -1,4 +1,4 @@
-package com.example.nickolas.kpiweeks.utils
+package com.example.nickolas.kpiweeks.utils.db
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE

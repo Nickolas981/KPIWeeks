@@ -1,5 +1,8 @@
 package com.example.nickolas.kpiweeks.utils
 
+import android.annotation.SuppressLint
+import com.example.nickolas.kpiweeks.App
+import com.example.nickolas.kpiweeks.activities.ScheduleActivity
 import com.example.nickolas.kpiweeks.model.enteties.Day
 import com.example.nickolas.kpiweeks.model.enteties.Lessson
 import com.example.nickolas.kpiweeks.model.enteties.Week
@@ -8,9 +11,10 @@ import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody
 
 
-class ResponseToSchedule {
+class ResponseToScheduleUtil {
     companion object {
-        var dbController = DBController.instance
+//        @SuppressLint("StaticFieldLeak")
+//        var dbController = DBController.instance
 
         private fun parse_(jsonObject: JsonObject, w: Int): Week {
             val week = Week()
@@ -40,7 +44,7 @@ class ResponseToSchedule {
 
             if (!str.contains("data"))
                 list = GsonBuilder().create().fromJson(str, typeOfHashMap)
-            else{
+            else {
                 val json = JsonParser().parse(str)
                         .asJsonObject
                         .getAsJsonObject("data")
@@ -50,13 +54,13 @@ class ResponseToSchedule {
                 list.add(parse_(json, 2))
 
                 val resultInJson = GsonBuilder().create().toJson(list)
-                dbController.start()
-                dbController.insert(resultInJson)
+//                dbController.start()
+//                dbController.insert(resultInJson)
+//                dbController.finish()
+                ScheduleActivity.sharedPreferenceUtils.setValue("json", resultInJson)
+
             }
 
-
-            /*val get = dbController.read()
-            dbController.finish()*/
             return list
         }
 
