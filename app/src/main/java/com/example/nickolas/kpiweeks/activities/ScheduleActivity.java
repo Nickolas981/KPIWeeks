@@ -11,16 +11,20 @@ import com.example.nickolas.kpiweeks.R;
 import com.example.nickolas.kpiweeks.fragments.WeekFragment;
 import com.example.nickolas.kpiweeks.utils.DayInformationUtil;
 import com.example.nickolas.kpiweeks.utils.SharedPreferenceUtils;
+import com.example.nickolas.kpiweeks.widgets.FragmentChanger;
 import com.example.nickolas.kpiweeks.widgets.holders.MyToolbarHolder;
 
 import java.util.Objects;
 
-public class ScheduleActivity extends AppCompatActivity {
+public class ScheduleActivity extends AppCompatActivity implements FragmentChanger {
 
     MyToolbarHolder myToolbar;
     private Bool firstInit = new Bool();
     private Bool secondInit = new Bool();
     private FragmentTransaction fragT;
+    private int  currentWeek;
+    WeekFragment fragment1;
+    WeekFragment fragment2;
     String name, id;
     Fragment currentFragment;
     //    DBController controller;
@@ -57,18 +61,21 @@ public class ScheduleActivity extends AppCompatActivity {
 
     private void startAction() {
         myToolbar.getTitle().setText(name.toUpperCase());
-        WeekFragment fragment1 = WeekFragment.newInstance(0, id);
-        WeekFragment fragment2 = WeekFragment.newInstance(1, id);
+        fragment1 = WeekFragment.newInstance(0, id, this);
+        fragment2 = WeekFragment.newInstance(1, id, this);
         myToolbar.getSwitch().setOnCheckedChangeListener((compoundButton, b) -> {
             if (!b)
                 changeFragment(firstInit, fragment1);
             else
                 changeFragment(secondInit, fragment2);
         });
-        if (new DayInformationUtil().getWeekNumber() != 1) {
+        currentWeek = new DayInformationUtil().getWeekNumber();
+        if (currentWeek == 1) {
             changeFragment(firstInit, fragment1);
+            fragment1.scroll = true;
         } else {
             myToolbar.getSwitch().performClick();
+            fragment2.scroll = true;
         }
     }
 
@@ -108,6 +115,11 @@ public class ScheduleActivity extends AppCompatActivity {
 
     private void deletePreferences() {
         sharedPreferenceUtils.clear();
+    }
+
+    @Override
+    public void change() {
+        myToolbar.getSwitch().performClick();
     }
 
     private class Bool {

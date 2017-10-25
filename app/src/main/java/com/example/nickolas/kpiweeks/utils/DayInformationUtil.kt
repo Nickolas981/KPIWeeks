@@ -1,8 +1,9 @@
 package com.example.nickolas.kpiweeks.utils
 
+import android.annotation.SuppressLint
+import java.text.SimpleDateFormat
 import java.util.*
-
-
+import kotlin.collections.ArrayList
 
 
 class DayInformationUtil {
@@ -46,27 +47,91 @@ class DayInformationUtil {
         }
     }
 
-    fun getWeekNumber() : Int {
-        var semester = getSemesterNumber()
-        var calendar = Calendar.getInstance()
-        var firstWeek : Int
-        var currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
-        if (semester == 1){
+    fun getWeekNumber(): Int {
+        val semester = getSemesterNumber()
+        val calendar = Calendar.getInstance()
+        val firstWeek: Int
+        val currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
+        if (semester == 1) {
             calendar.set(calendar.get(Calendar.YEAR), Calendar.SEPTEMBER, 0)
-        } else if (semester == 2){
+        } else if (semester == 2) {
             calendar.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 0)
         }
         firstWeek = calendar.get(Calendar.WEEK_OF_YEAR)
-        return (currentWeek - firstWeek)% 2 + 1
+        return (currentWeek - firstWeek) % 2 + 1
     }
 
+    fun getDates(): List<List<String>> {
+        var list: MutableList<List<String>> = ArrayList()
+        var firstWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
 
-    fun getSemesterNumber() : Int{
+        if (getWeekNumber() == 2) {
+            firstWeek -= 1
+        }
+        list.add(getWeekDates(firstWeek))
+        list.add(getWeekDates(firstWeek + 1))
+
+        return list
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun getWeekDates(week: Int): List<String> {
+        val c = GregorianCalendar(Locale.getDefault())
+        c.clear()
+        c.set(Calendar.WEEK_OF_YEAR, week)
+        c.set(Calendar.YEAR, Calendar.getInstance().get(Calendar.YEAR))
+
+        val list: MutableList<String> = ArrayList()
+
+
+        for (i in 0 until 7) {
+            c.set(Calendar.DAY_OF_WEEK, i)
+            list.add(SimpleDateFormat("dd.MM").format(c.time))
+        }
+
+        list.add(list[0])
+        list.removeAt(0)
+        list.add(list[0])
+        list.removeAt(0)
+
+        return list
+    }
+
+    fun scrollTo(keys: MutableSet<String>): Int {
+        var cal = getNormalDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+
+        while (true){
+            if (cal == 7){
+                return 8
+            }
+            val d = keys.positionOf(cal.toString())
+            if (d != keys.size){
+                return d
+            }else{
+                cal += 1
+            }
+        }
+    }
+
+    private fun getNormalDay(day: Int): Int = when (day) {
+        0 -> 6
+        1 -> 7
+        else -> (day - 1)
+    }
+
+    private fun getSemesterNumber(): Int {
         val currentMonth = Calendar.getInstance().get(Calendar.MONTH) //9
-        return when (currentMonth){
+        return when (currentMonth) {
             in 8..11 -> 1
             in 0..4 -> 2
             else -> 3
         }
     }
+
 }
+
+private fun <E> MutableSet<E>.positionOf(day: String): Int = this
+        .takeWhile { it != day }
+        .count()
+
+

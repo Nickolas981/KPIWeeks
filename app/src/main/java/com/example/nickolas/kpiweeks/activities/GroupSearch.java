@@ -41,14 +41,7 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
     ArrayList<String> text;
 
 
-//    public void showPredictions(@NonNull List<String> strings) {
-//
-//        group_names.clear();
-//        group_names.addAll(strings);
-//        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, group_names);
-//        autoCompleteTextView.setAdapter(adapter);
-////        adapter.notifyDataSetChanged();
-//    }
+
 
     @Override
     public void showPredictions(@NonNull Map<String, String> strings) {

@@ -13,30 +13,38 @@ import com.example.nickolas.kpiweeks.utils.DayInformationUtil
 import kotlinx.android.synthetic.main.day_view.view.*
 import kotlinx.android.synthetic.main.lesson_view.view.*
 
-class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapter.ViewHolder>(){
+open class  WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapter.ViewHolder>() {
+
 
     private var week = Week()
     private var dayKeys = week.days.keys
+    private lateinit var dates: List<String>
 
-    fun setWeek(w : Week){
+    fun setWeek(w: Week, number: Int) {
         week = w
         dayKeys = week.days.keys
+        dates = DayInformationUtil().getDates()[number]
         notifyDataSetChanged()
     }
 
-    @SuppressLint("SetTextI18n")
+
+    fun getKeys(): MutableSet<String> = dayKeys
+
+
+    @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
         val dayInformationUtil = DayInformationUtil()
-        with(holder){
+        with(holder) {
             val day = week.days[dayKeys.elementAt(position)]
-            this!!.dateAndDay.text = dayInformationUtil.getDay(dayKeys.elementAt(position))
+            this!!.dateAndDay.text = dayInformationUtil.getDay(dayKeys.elementAt(position)) + " " +
+                    dates[dayKeys.elementAt(position).toInt() - 1]
             val lessonKey = week.days[dayKeys.elementAt(position)]?.lesssons?.keys
             val vi = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            for (key in lessonKey!!){
+            for (key in lessonKey!!) {
                 val lesson = day?.lesssons?.get(key)
                 val v = vi.inflate(R.layout.lesson_view, null)
                 v.number_of_lesson.text = key
-                if(key == lessonKey.elementAt(lessonKey.size - 1)){
+                if (key == lessonKey.elementAt(lessonKey.size - 1)) {
                     v.separator.visibility = View.GONE
                 }
                 v.subject_name.text = lesson?.discipline?.fullName
@@ -66,7 +74,7 @@ class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapt
 
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var dateAndDay :TextView = itemView.day_and_date
+        var dateAndDay: TextView = itemView.day_and_date
         var container = itemView.lessons_container
     }
 }

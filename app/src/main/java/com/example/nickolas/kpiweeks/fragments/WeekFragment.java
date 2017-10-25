@@ -17,7 +17,9 @@ import com.example.nickolas.kpiweeks.di.component.DaggerPresentersComponent;
 import com.example.nickolas.kpiweeks.di.module.PresentersModule;
 import com.example.nickolas.kpiweeks.model.enteties.Week;
 import com.example.nickolas.kpiweeks.presenters.WeekPresenter;
+import com.example.nickolas.kpiweeks.utils.DayInformationUtil;
 import com.example.nickolas.kpiweeks.views.WeekView;
+import com.example.nickolas.kpiweeks.widgets.FragmentChanger;
 import com.example.nickolas.kpiweeks.widgets.adapters.WeekAdapter;
 
 import org.jetbrains.annotations.NotNull;
@@ -31,13 +33,17 @@ public class WeekFragment extends Fragment implements WeekView {
     WeekPresenter presenter;
     RecyclerView recyclerView;
     WeekAdapter weekAdapter;
+    FragmentChanger fragmentChanger;
+    LinearLayoutManager linearLayoutManager;
+    public boolean scroll = false;
     int week;
     String id;
 
-    public static WeekFragment newInstance(int c, String id) {
+    public static WeekFragment newInstance(int c, String id, FragmentChanger fc) {
         WeekFragment weekFragment = new WeekFragment();
         weekFragment.week = c;
         weekFragment.id = id;
+        weekFragment.fragmentChanger = fc;
         return weekFragment;
     }
 
@@ -64,7 +70,7 @@ public class WeekFragment extends Fragment implements WeekView {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_week, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(container.getContext());
+        linearLayoutManager = new LinearLayoutManager(container.getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
 
@@ -76,9 +82,22 @@ public class WeekFragment extends Fragment implements WeekView {
         return view;
     }
 
+    private void scroll(){
+        if (scroll) {
+            int position = new DayInformationUtil()
+                    .scrollTo(weekAdapter.getKeys());
+            if (position == 8){
+                fragmentChanger.change();
+            }
+            linearLayoutManager.scrollToPosition(position);
+            scroll = false;
+        }
+    }
+
     @Override
     public void showSchedule(@NotNull Week week) {
-        weekAdapter.setWeek(week);
+        weekAdapter.setWeek(week, this.week);
+        scroll();
     }
 
 
