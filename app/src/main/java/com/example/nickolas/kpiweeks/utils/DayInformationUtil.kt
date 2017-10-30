@@ -61,21 +61,22 @@ class DayInformationUtil {
         return (currentWeek - firstWeek) % 2 + 1
     }
 
-    fun getDates(): List<List<String>> {
-        var list: MutableList<List<String>> = ArrayList()
-        var firstWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
-
+    fun getDates(number: Int): List<String> {
+        val firstWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR)
+        var n = number
         if (getWeekNumber() == 2) {
-            firstWeek -= 1
+            if (number == 0) {
+                n += 1
+            } else {
+                n = 0
+            }
         }
-        list.add(getWeekDates(firstWeek))
-        list.add(getWeekDates(firstWeek + 1))
-
-        return list
+        return getWeekDates(firstWeek + n)
     }
 
+
     @SuppressLint("SimpleDateFormat")
-    fun getWeekDates(week: Int): List<String> {
+    private fun getWeekDates(week: Int): List<String> {
         val c = GregorianCalendar(Locale.getDefault())
         c.clear()
         c.set(Calendar.WEEK_OF_YEAR, week)
@@ -97,19 +98,14 @@ class DayInformationUtil {
         return list
     }
 
+
     fun scrollTo(keys: MutableSet<String>): Int {
         var cal = getNormalDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
 
-        while (true){
-            if (cal == 7){
-                return 8
-            }
+        while (true) {
+            if (cal == 7) return 8
             val d = keys.positionOf(cal.toString())
-            if (d != keys.size){
-                return d
-            }else{
-                cal += 1
-            }
+            if (d != keys.size) return d else cal += 1
         }
     }
 
@@ -127,6 +123,23 @@ class DayInformationUtil {
             else -> 3
         }
     }
+
+    private fun getTime(date: String, d : String): Long {
+        val calendar = Calendar.getInstance()
+        val list : MutableList<String> = date.split(":") as MutableList<String>
+        list.addAll(d.split("."))
+        calendar.set(Calendar.HOUR_OF_DAY, list[0].toInt())
+        calendar.set(Calendar.MINUTE, list[1].toInt())
+        calendar.set(Calendar.DAY_OF_MONTH, list[2].toInt())
+        calendar.set(Calendar.MONTH, list[3].toInt() - 1)
+
+        return calendar.timeInMillis
+    }
+
+
+    fun isActive(number: String, date : String): Boolean =
+            (System.currentTimeMillis() >= getTime(getStartTime(number),date)
+                    && System.currentTimeMillis() <= getTime(getFinishTime(number), date))
 
 }
 

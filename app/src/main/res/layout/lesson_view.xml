@@ -38,7 +38,8 @@
                 android:singleLine="true"
                 android:text="Паралельне програмування-1.Основи "
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:ignore="NestedWeights" />
 
             <TextView
                 android:id="@+id/teacher_name"
@@ -61,6 +62,13 @@
                 android:text="Аудиторія:"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <View
+            android:layout_width="20dp"
+            android:id="@+id/indicator"
+            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -95,6 +103,8 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
-    <include layout="@layout/separator"
-        android:id="@+id/separator"/>
+
+    <include
+        android:id="@+id/separator"
+        layout="@layout/separator" />
 </LinearLayout>
