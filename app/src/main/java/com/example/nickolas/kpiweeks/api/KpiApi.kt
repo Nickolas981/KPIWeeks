@@ -6,12 +6,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import rx.Observable
 
-/**
- * Created by Nickolas on 15.10.2017.
- */
 interface KpiApi {
 
-    @GET("groups.json")
+    @GET("groups")
     fun searchGroup(@Query("search") str: String) : Observable<ResponseBody>
 
     @GET("groups/{group}/timetable")

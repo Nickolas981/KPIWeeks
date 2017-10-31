@@ -1,9 +1,7 @@
 package com.example.nickolas.kpiweeks.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +19,8 @@ import com.example.nickolas.kpiweeks.presenters.SearchPresenter;
 import com.example.nickolas.kpiweeks.views.GroupSearchView;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,7 +33,7 @@ import javax.inject.Inject;
 
 public class GroupSearch extends AppCompatActivity implements GroupSearchView {
 
-    private ArrayAdapter adapter;
+    private ArrayAdapter<String> adapter;
     private Map<String, String> grop_names;
     @Inject
     SearchPresenter presenter;
@@ -50,7 +50,7 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
         grop_names.putAll(strings);
         List<String> keys = new ArrayList<>(grop_names.keySet());
         Collections.sort(keys);
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, keys);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, keys);
         autoCompleteTextView.setAdapter(adapter);
 //        adapter.notifyDataSetChanged();
     }
@@ -81,18 +81,18 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
         super.onStart();
 //        myToolbar = new MyToolbar(findViewById(android.R.id.content));
         autoCompleteTextView = findViewById(R.id.autocomplete);
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, new ArrayList());
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, new ArrayList<>());
         autoCompleteTextView.setAdapter(adapter);
         autoCompleteTextView.addTextChangedListener(new TextListener());
         autoCompleteTextView.setThreshold(1);
-        autoCompleteTextView.setOnItemClickListener((adapterView, view, i, l) -> {
-            Intent intent = new Intent();
-            intent.putExtra("name", adapter.getItem(i).toString());
-            intent.putExtra("id", grop_names.get(adapter.getItem(i)));
-            setResult(RESULT_OK, intent);
-            finish();
-        });
-        text = new ArrayList();
+//        autoCompleteTextView.setOnItemClickListener((adapterView, view, i, l) -> {
+//            Intent intent = new Intent();
+//            intent.putExtra("name", adapter.getItem(i).toString());
+//            intent.putExtra("id", grop_names.get(adapter.getItem(i)));
+//            setResult(RESULT_OK, intent);
+//            finish();
+//        });
+        text = new ArrayList<>();
         text.add("Живи");
         text.add("Люби");
         text.add("КПИ");
@@ -139,7 +139,13 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
 
         @Override
         public void afterTextChanged(Editable s) {
-            presenter.getGroups(s.toString());
+            JSONObject js = new JSONObject();
+            try {
+                js.put("query", s.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            presenter.getGroups(js.toString());
         }
     }
 }
