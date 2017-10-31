@@ -1,9 +1,15 @@
 package com.example.nickolas.kpiweeks.model.enteties
 
-/**
- * Created by Nickolas on 16.10.2017.
- */
- class Day : Item() {
-    var day : String = ""
-    var lesssons : MutableMap<String, Lesson> = mutableMapOf()
-}
+import com.google.gson.annotations.SerializedName
+
+data class Day(
+
+        @field:SerializedName("day_name")
+        val dayName: String? = null,
+
+        @field:SerializedName("day_number")
+        val dayNumber: Int? = null,
+
+        @field:SerializedName("lessons")
+        val lessons: List<Lesson?>? = null
+)

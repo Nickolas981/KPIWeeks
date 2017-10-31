@@ -21,13 +21,11 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
     MyToolbarHolder myToolbar;
     private Bool firstInit = new Bool();
     private Bool secondInit = new Bool();
-    private FragmentTransaction fragT;
-    private int  currentWeek;
     WeekFragment fragment1;
     WeekFragment fragment2;
-    String name, id;
+    String name;
     Fragment currentFragment;
-    //    DBController controller;
+    @SuppressLint("StaticFieldLeak")
     public static SharedPreferenceUtils sharedPreferenceUtils;
 
 
@@ -36,8 +34,6 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         sharedPreferenceUtils = SharedPreferenceUtils.getInstance(this);
-//        controller = DBController.Companion.getInstance();
-//        controller.initiate(this);
         myToolbar = new MyToolbarHolder(findViewById(android.R.id.content));
         myToolbar.getButtonText().setText("Вийти");
         myToolbar.getBackButton().setOnClickListener(view -> {
@@ -47,7 +43,7 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
             startSearch();
         });
         loadPreferences();
-        if (Objects.equals(name, "") || Objects.equals(id, "")) {
+        if (Objects.equals(name, "")) {
             startSearch();
         } else {
             startAction();
@@ -61,15 +57,15 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
 
     private void startAction() {
         myToolbar.getTitle().setText(name.toUpperCase());
-        fragment1 = WeekFragment.newInstance(0, id, this);
-        fragment2 = WeekFragment.newInstance(1, id, this);
+        fragment1 = WeekFragment.newInstance(0, name, this);
+        fragment2 = WeekFragment.newInstance(1, name, this);
         myToolbar.getSwitch().setOnCheckedChangeListener((compoundButton, b) -> {
             if (!b)
                 changeFragment(firstInit, fragment1);
             else
                 changeFragment(secondInit, fragment2);
         });
-        currentWeek = new DayInformationUtil().getWeekNumber();
+        int currentWeek = new DayInformationUtil().getWeekNumber();
         if (currentWeek == 1) {
             changeFragment(firstInit, fragment1);
             fragment1.scroll = true;
@@ -84,7 +80,6 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
         Bundle bundle = data.getExtras();
         if (bundle != null) {
             name = bundle.getString("name");
-            id = bundle.getString("id");
         }
         savePreferences();
         startAction();
@@ -92,7 +87,7 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
     }
 
     private void changeFragment(Bool init, android.app.Fragment fragment) {
-        fragT = getFragmentManager().beginTransaction();
+        FragmentTransaction fragT = getFragmentManager().beginTransaction();
         if (!init.b) {
             fragT.add(R.id.frame, fragment).commit();
             init.b = true;
@@ -105,12 +100,10 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
     @SuppressLint("ApplySharedPref")
     private void savePreferences() {
         sharedPreferenceUtils.setValue("name", name);
-        sharedPreferenceUtils.setValue("id", id);
     }
 
     private void loadPreferences() {
         name = sharedPreferenceUtils.getStringValue("name", "");
-        id = sharedPreferenceUtils.getStringValue("id", "");
     }
 
     private void deletePreferences() {
@@ -123,7 +116,7 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
     }
 
     private class Bool {
-        public boolean b;
+        boolean b;
     }
 
 

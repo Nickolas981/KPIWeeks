@@ -4,12 +4,15 @@ import com.google.gson.annotations.SerializedName
 
 data class RoomsItem(
 
-        @field:SerializedName("name")
-        val name: String? = null,
+	@field:SerializedName("room_id")
+	val roomId: String? = null,
 
-        @field:SerializedName("id")
-        val id: Int? = null,
+	@field:SerializedName("room_longitude")
+	val roomLongitude: String? = null,
 
-        @field:SerializedName("building")
-        val building: Building? = null
+	@field:SerializedName("room_name")
+	val roomName: String? = null,
+
+	@field:SerializedName("room_latitude")
+	val roomLatitude: String? = null
 )
