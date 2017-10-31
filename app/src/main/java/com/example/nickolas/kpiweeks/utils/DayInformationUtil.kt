@@ -98,13 +98,13 @@ class DayInformationUtil {
     }
 
 
-    fun scrollTo(keys: MutableSet<String>): Int {
-        var cal = getNormalDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
+    fun scrollTo(): Int {
+        val cal = getNormalDay(Calendar.getInstance().get(Calendar.DAY_OF_WEEK))
 
-        while (true) {
-            if (cal == 7) return 8
-            val d = keys.positionOf(cal.toString())
-            if (d != keys.size) return d else cal += 1
+        return if (cal == 7){
+            8
+        }else{
+            cal -1
         }
     }
 

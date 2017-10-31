@@ -23,6 +23,7 @@ import com.example.nickolas.kpiweeks.utils.DayInformationUtil;
 import com.example.nickolas.kpiweeks.views.WeekView;
 import com.example.nickolas.kpiweeks.widgets.FragmentChanger;
 //import com.example.nickolas.kpiweeks.widgets.adapters.WeekAdapter;
+import com.example.nickolas.kpiweeks.widgets.adapters.WeekAdapter;
 import com.example.nickolas.kpiweeks.widgets.layout_managers.TopSnappedStickyLayoutManager;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +36,7 @@ public class WeekFragment extends Fragment implements WeekView {
     @Inject
     WeekPresenter presenter;
     RecyclerView recyclerView;
-//    WeekAdapter weekAdapter;
+    WeekAdapter weekAdapter;
     FragmentChanger fragmentChanger;
     StickyLayoutManager layoutManager;
     public boolean scroll = false;
@@ -75,10 +76,10 @@ public class WeekFragment extends Fragment implements WeekView {
 
         View view = inflater.inflate(R.layout.fragment_week, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
-//        weekAdapter = new WeekAdapter(container.getContext());
-//        layoutManager = new TopSnappedStickyLayoutManager(container.getContext(), weekAdapter);
+        weekAdapter = new WeekAdapter(container.getContext());
+        layoutManager = new TopSnappedStickyLayoutManager(container.getContext(), weekAdapter);
         recyclerView.setLayoutManager(layoutManager);
-//        recyclerView.setAdapter(weekAdapter);
+        recyclerView.setAdapter(weekAdapter);
         presenter.getSchedule(name, week, getActivity());
 
         return view;
@@ -86,10 +87,10 @@ public class WeekFragment extends Fragment implements WeekView {
 
     private void scroll(){
         if (scroll) {
-//            int position = new DayInformationUtil()
-//                    .scrollTo(weekAdapter.getKeys());
-//            if (position == 8) fragmentChanger.change();
-//            layoutManager.scrollToPosition(position*2);
+            int position = new DayInformationUtil()
+                    .scrollTo();
+            if (position == 8) fragmentChanger.change();
+            layoutManager.scrollToPosition(position*2);
             scroll = false;
         }
     }
@@ -97,7 +98,7 @@ public class WeekFragment extends Fragment implements WeekView {
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void showSchedule(@NotNull Week week) {
-//        weekAdapter.setWeek(week, this.week);
+        weekAdapter.setWeek(week);
         scroll();
     }
 
