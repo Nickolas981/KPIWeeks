@@ -74,7 +74,6 @@ class DayInformationUtil {
         return getWeekDates(firstWeek + n)
     }
 
-
     @SuppressLint("SimpleDateFormat")
     private fun getWeekDates(week: Int): List<String> {
         val c = GregorianCalendar(Locale.getDefault())

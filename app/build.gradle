@@ -40,6 +40,7 @@ dependencies {
     //retrofit
     // rx
     // dagger
+    compile "org.jetbrains.anko:anko:0.10.2"
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3'
     compile 'com.brandongogetap:stickyheaders:0.4.9'
     compile 'devlight.io:navigationtabbar:1.2.5'
