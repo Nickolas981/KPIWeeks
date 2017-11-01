@@ -22,7 +22,6 @@ import com.example.nickolas.kpiweeks.presenters.WeekPresenter;
 import com.example.nickolas.kpiweeks.utils.DayInformationUtil;
 import com.example.nickolas.kpiweeks.views.WeekView;
 import com.example.nickolas.kpiweeks.widgets.FragmentChanger;
-//import com.example.nickolas.kpiweeks.widgets.adapters.WeekAdapter;
 import com.example.nickolas.kpiweeks.widgets.adapters.WeekAdapter;
 import com.example.nickolas.kpiweeks.widgets.layout_managers.TopSnappedStickyLayoutManager;
 

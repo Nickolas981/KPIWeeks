@@ -62,13 +62,13 @@ open class WeekAdapter(private val context: Context) : RecyclerView.Adapter<Week
                     }
                     v.subject_name.text = lesson?.lessonName
                     v.teacher_name.text = lesson?.teacherName
-                    v.room_number.text = "Аудиторія: ${lesson?.lessonRoom}"
+                    v.room_number.text = "Аудиторія: ${lesson?.lessonRoom}  (${lesson?.lessonType})"
                     val date = day.dayName?.replace("[^0-9.]".toRegex(), "")
                     if (dayInformationUtil.isActive(lesson?.lessonNumber.toString(), date!!)) {
                         v.indicator.visibility = View.VISIBLE
                     }
-                    v.lesson_start.text = lesson?.timeStart?.substring(5)
-                    v.lesson_end.text = lesson?.timeEnd?.substring(5)
+                    v.lesson_start.text = lesson?.timeStart?.substring(0, 5)
+                    v.lesson_end.text = lesson?.timeEnd?.substring(0, 5)
                     container.addView(v)
                 }
             }
