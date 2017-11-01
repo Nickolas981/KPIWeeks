@@ -1,5 +1,6 @@
 package com.example.nickolas.kpiweeks.utils
 
+import com.example.nickolas.kpiweeks.activities.ScheduleActivity
 import com.example.nickolas.kpiweeks.model.enteties.Day
 import com.example.nickolas.kpiweeks.model.enteties.Week
 import com.google.gson.*
@@ -41,6 +42,9 @@ class ResponseToScheduleUtil {
 
                 list.add(parseWeek(json.getAsJsonObject("1")))
                 list.add(parseWeek(json.getAsJsonObject("2")))
+
+                val resultInJson = GsonBuilder().create().toJson(list)
+                ScheduleActivity.sharedPreferenceUtils.setValue("json", resultInJson)
             }
             return list
         }
