@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.nickolas.kpiweeks">
+    package="com.dongumen.nickolas.kpiweeks">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name="com.dongumen.nickolas.kpiweeks.App"
         android:allowBackup="true"
-        android:icon="@drawable/logo"
+        android:icon="@drawable/logo_round"
         android:label="@string/app_name"
         android:roundIcon="@drawable/logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <activity android:name=".activities.GroupSearch"
+        <activity android:name="com.dongumen.nickolas.kpiweeks.activities.GroupSearch"
             android:theme="@style/GroupSearch"/>
 
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
 
-        <activity android:name=".activities.ScheduleActivity">
+        <activity android:name="com.dongumen.nickolas.kpiweeks.activities.ScheduleActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

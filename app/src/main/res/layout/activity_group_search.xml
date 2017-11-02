@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.nickolas.kpiweeks.activities.GroupSearch">
+    tools:context="com.dongumen.nickolas.kpiweeks.activities.GroupSearch">
     <!--<include layout="@layout/custom_toolbar"/>-->
     <TextView
         android:layout_marginTop="60dp"
