@@ -3,10 +3,10 @@ package com.dongumen.nickolas.kpiweeks.di.module;
 
 import com.dongumen.nickolas.kpiweeks.Constants;
 import com.dongumen.nickolas.kpiweeks.api.KpiApi;
-import com.dongumen.nickolas.kpiweeks.model.remote.IWeekDataSource;
 import com.dongumen.nickolas.kpiweeks.model.remote.ISearchDataSource;
-import com.dongumen.nickolas.kpiweeks.model.remote.WeekDataSource;
+import com.dongumen.nickolas.kpiweeks.model.remote.IWeekDataSource;
 import com.dongumen.nickolas.kpiweeks.model.remote.SearchDataSource;
+import com.dongumen.nickolas.kpiweeks.model.remote.WeekDataSource;
 
 import javax.inject.Singleton;
 
@@ -22,7 +22,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    public Retrofit provideRetrofit() {
+    Retrofit provideRetrofit() {
         return new Retrofit.Builder()
                 .baseUrl(Constants.INSTANCE.getBASE_URL())
                 .addConverterFactory(GsonConverterFactory.create())
@@ -33,13 +33,13 @@ public class ApiModule {
 
    @Provides
    @Singleton
-   public ISearchDataSource provideSearchDataSource(Retrofit retrofit){
+   ISearchDataSource provideSearchDataSource(Retrofit retrofit) {
        return new SearchDataSource(retrofit.create(KpiApi.class));
    }
 
     @Provides
     @Singleton
-    public IWeekDataSource provideWeekDataSource(Retrofit retrofit) {
+    IWeekDataSource provideWeekDataSource(Retrofit retrofit) {
         return new WeekDataSource(retrofit.create(KpiApi.class));
     }
 

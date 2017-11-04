@@ -23,12 +23,12 @@ public class PresentersModule {
 //    }
     @Provides
     @Scope(Scopes.VIEW)
-    public SearchPresenter provideLogInPresenter(ISearchDataSource searchDataSource) {
+    SearchPresenter provideLogInPresenter(ISearchDataSource searchDataSource) {
         return new SearchPresenter(searchDataSource);
     }
     @Provides
     @Scope(Scopes.VIEW)
-    public WeekPresenter provideWeekPresenter(IWeekDataSource weekDataSource) {
+    WeekPresenter provideWeekPresenter(IWeekDataSource weekDataSource) {
         return new WeekPresenter(weekDataSource);
     }
 }

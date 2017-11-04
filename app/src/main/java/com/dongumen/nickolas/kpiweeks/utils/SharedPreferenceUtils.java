@@ -7,28 +7,13 @@ import android.content.SharedPreferences;
 public class SharedPreferenceUtils {
     @SuppressLint("StaticFieldLeak")
     private static SharedPreferenceUtils mSharedPreferenceUtils;
-    private Context mContext;
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mSharedPreferencesEditor;
 
-    private SharedPreferenceUtils(Context context) {
-        mContext = context;
+    @SuppressLint("CommitPrefEdits")
+    public SharedPreferenceUtils(Context context) {
         mSharedPreferences = context.getSharedPreferences("MyPreferences", Context.MODE_PRIVATE);
         mSharedPreferencesEditor = mSharedPreferences.edit();
-    }
-
-    /**
-     * Creates single instance of SharedPreferenceUtils
-     *
-     * @param context context of Activity or Service
-     * @return Returns instance of SharedPreferenceUtils
-     */
-    public static synchronized SharedPreferenceUtils getInstance(Context context) {
-
-        if (mSharedPreferenceUtils == null) {
-            mSharedPreferenceUtils = new SharedPreferenceUtils(context);
-        }
-        return mSharedPreferenceUtils;
     }
 
     /**

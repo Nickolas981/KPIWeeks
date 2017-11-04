@@ -1,30 +1,32 @@
 package com.dongumen.nickolas.kpiweeks.model.remote
 
-import android.app.Activity
-import com.dongumen.nickolas.kpiweeks.activities.ScheduleActivity
+import com.dongumen.nickolas.kpiweeks.App
 import com.dongumen.nickolas.kpiweeks.api.KpiApi
+import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import rx.Observable
+import javax.inject.Inject
 
 
-class WeekDataSource(val api: KpiApi) : IWeekDataSource {
-    override fun getSchedule(group: String, context: Activity): Observable<ResponseBody> {
-//        val dataController = DBController.instance
-//        dataController.start()
-//        val string = dataController.read()
-//        dataController.finish()
+class WeekDataSource(private val api: KpiApi) : IWeekDataSource {
 
-        val string = loadPreferences(context)
+    @Inject
+    lateinit var sharedPref: SharedPreferenceUtils
 
-
-        if (string.equals(""))
-            return api.getTimetable(group)
-        else
-            return Observable.just(ResponseBody.create(MediaType.parse("text/plain"), string))
+    init {
+        App.utilsComponent().inject(this)
     }
 
-    private fun loadPreferences(ac: Activity): String =
-            ScheduleActivity.sharedPreferenceUtils.getStringValue("json", "")
+    override fun getSchedule(group: String): Observable<ResponseBody> {
+        val string = loadPreferences()
+        return if (string == "")
+            api.getTimetable(group)
+        else
+            Observable.just(ResponseBody.create(MediaType.parse("text/plain"), string))
+    }
+
+    private fun loadPreferences(): String =
+            sharedPref.getStringValue("json", "")
 
 }

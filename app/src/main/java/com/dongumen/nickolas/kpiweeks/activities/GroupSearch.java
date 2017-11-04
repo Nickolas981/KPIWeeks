@@ -13,6 +13,7 @@ import com.dongumen.nickolas.kpiweeks.App;
 import com.dongumen.nickolas.kpiweeks.R;
 import com.dongumen.nickolas.kpiweeks.di.component.AppComponent;
 import com.dongumen.nickolas.kpiweeks.di.component.DaggerPresentersComponent;
+import com.dongumen.nickolas.kpiweeks.di.module.AppModule;
 import com.dongumen.nickolas.kpiweeks.di.module.PresentersModule;
 import com.dongumen.nickolas.kpiweeks.presenters.SearchPresenter;
 import com.dongumen.nickolas.kpiweeks.views.GroupSearchView;
@@ -46,7 +47,7 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
     }
 
     public AppComponent getAppComponent() {
-        return ((App) getApplication()).appComponent();
+        return App.appComponent();
     }
 
     @Override
@@ -59,6 +60,7 @@ public class GroupSearch extends AppCompatActivity implements GroupSearchView {
         DaggerPresentersComponent.builder()
                 .appComponent(getAppComponent())
                 .presentersModule(new PresentersModule())
+                .appModule(new AppModule(getContext()))
                 .build()
                 .inject(this);
 

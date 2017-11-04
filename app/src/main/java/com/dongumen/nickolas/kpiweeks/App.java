@@ -4,26 +4,38 @@ package com.dongumen.nickolas.kpiweeks;
 import android.app.Application;
 
 import com.dongumen.nickolas.kpiweeks.di.component.AppComponent;
-//import com.example.nickolas.kpiweeks.di.component.DaggerAppComponent;
-//import com.example.nickolas.kpiweeks.di.component.DaggerAppComponent;
 import com.dongumen.nickolas.kpiweeks.di.component.DaggerAppComponent;
-import com.dongumen.nickolas.kpiweeks.di.module.ApiModule;
+import com.dongumen.nickolas.kpiweeks.di.component.DaggerUtilsComponent;
+import com.dongumen.nickolas.kpiweeks.di.component.UtilsComponent;
 import com.dongumen.nickolas.kpiweeks.di.module.AppModule;
+
+//import com.dongumen.nickolas.kpiweeks.di.component.UtilsComponent;
+
+//import com.example.nickolas.kpiweeks.di.component.DaggerAppComponent;
+//import com.example.nickolas.kpiweeks.di.component.DaggerAppComponent;
 
 public class App extends Application {
 
-    private AppComponent appComponent;
+    private static AppComponent appComponent;
+    private static UtilsComponent utilsComponent;
 
     public App() {
         super();
 
         appComponent = DaggerAppComponent.builder()
-                .apiModule(new ApiModule())
+                .appModule(new AppModule(this))
+                .build();
+
+        utilsComponent = DaggerUtilsComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
     }
 
-    public AppComponent appComponent() {
+    public static AppComponent appComponent() {
         return appComponent;
+    }
+
+    public static UtilsComponent utilsComponent() {
+        return utilsComponent;
     }
 }

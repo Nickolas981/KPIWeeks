@@ -17,6 +17,7 @@ import com.dongumen.nickolas.kpiweeks.App;
 import com.dongumen.nickolas.kpiweeks.R;
 import com.dongumen.nickolas.kpiweeks.di.component.AppComponent;
 import com.dongumen.nickolas.kpiweeks.di.component.DaggerPresentersComponent;
+import com.dongumen.nickolas.kpiweeks.di.module.AppModule;
 import com.dongumen.nickolas.kpiweeks.di.module.PresentersModule;
 import com.dongumen.nickolas.kpiweeks.model.enteties.Week;
 import com.dongumen.nickolas.kpiweeks.presenters.WeekPresenter;
@@ -35,6 +36,8 @@ public class WeekFragment extends Fragment implements WeekView {
 
     @Inject
     WeekPresenter presenter;
+    //    @Inject
+    DayInformationUtil dayInformationUtil;
     RecyclerView recyclerView;
     WeekAdapter weekAdapter;
     FragmentChanger fragmentChanger;
@@ -44,17 +47,19 @@ public class WeekFragment extends Fragment implements WeekView {
     int week;
     String name;
 
-    public static WeekFragment newInstance(int weekNumber, String name, FragmentChanger fc) {
+    public static WeekFragment newInstance(int weekNumber, String name, FragmentChanger fc,
+                                           DayInformationUtil dayInformationUtil) {
         WeekFragment weekFragment = new WeekFragment();
         weekFragment.week = weekNumber;
         weekFragment.name = name;
         weekFragment.fragmentChanger = fc;
+        weekFragment.dayInformationUtil = dayInformationUtil;
         return weekFragment;
     }
 
 
     public AppComponent getAppComponent() {
-        return ((App) getActivity().getApplication()).appComponent();
+        return App.appComponent();
     }
 
 
@@ -64,9 +69,9 @@ public class WeekFragment extends Fragment implements WeekView {
         DaggerPresentersComponent.builder()
                 .appComponent(getAppComponent())
                 .presentersModule(new PresentersModule())
+                .appModule(new AppModule(getActivity().getApplicationContext()))
                 .build()
                 .inject(this);
-
         presenter.setView(this);
     }
 
@@ -82,15 +87,14 @@ public class WeekFragment extends Fragment implements WeekView {
         layoutManager = new TopSnappedStickyLayoutManager(container.getContext(), weekAdapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(weekAdapter);
-        presenter.getSchedule(name, week, getActivity());
+        presenter.getSchedule(name, week);
 
         return view;
     }
 
     private void scroll(){
         if (scroll) {
-            int position = new DayInformationUtil()
-                    .scrollTo();
+            int position = dayInformationUtil.scrollTo();
             if (position == 8) fragmentChanger.change();
             layoutManager.scrollToPosition(position*2);
             scroll = false;

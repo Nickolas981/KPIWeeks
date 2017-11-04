@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.dongumen.nickolas.kpiweeks.App;
 import com.dongumen.nickolas.kpiweeks.R;
 import com.dongumen.nickolas.kpiweeks.fragments.WeekFragment;
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil;
@@ -15,6 +16,8 @@ import com.dongumen.nickolas.kpiweeks.widgets.FragmentChanger;
 import com.dongumen.nickolas.kpiweeks.widgets.holders.MyToolbarHolder;
 
 import java.util.Objects;
+
+import javax.inject.Inject;
 
 public class ScheduleActivity extends AppCompatActivity implements FragmentChanger {
 
@@ -25,15 +28,17 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
     WeekFragment fragment2;
     String name;
     Fragment currentFragment;
-    @SuppressLint("StaticFieldLeak")
-    public static SharedPreferenceUtils sharedPreferenceUtils;
+    @Inject
+    public SharedPreferenceUtils sharedPreferenceUtils;
+    @Inject
+    public DayInformationUtil dayInformationUtil;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
-        sharedPreferenceUtils = SharedPreferenceUtils.getInstance(this);
+        App.utilsComponent().inject(this);
         myToolbar = new MyToolbarHolder(findViewById(android.R.id.content));
         myToolbar.getButtonText().setText("Вийти");
         myToolbar.getBackButton().setOnClickListener(view -> {
@@ -59,15 +64,15 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
 
     private void startAction() {
         myToolbar.getTitle().setText(name.toUpperCase());
-        fragment1 = WeekFragment.newInstance(0, name, this);
-        fragment2 = WeekFragment.newInstance(1, name, this);
+        fragment1 = WeekFragment.newInstance(0, name, this, dayInformationUtil);
+        fragment2 = WeekFragment.newInstance(1, name, this, dayInformationUtil);
         myToolbar.getSwitch().setOnCheckedChangeListener((compoundButton, b) -> {
             if (!b)
                 changeFragment(firstInit, fragment1);
             else
                 changeFragment(secondInit, fragment2);
         });
-        int currentWeek = new DayInformationUtil().getWeekNumber();
+        int currentWeek = dayInformationUtil.getWeekNumber();
         if (currentWeek == 1) {
             changeFragment(firstInit, fragment1);
             myToolbar.getSwitch().setChecked(false);
@@ -75,7 +80,6 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
         } else {
             myToolbar.getSwitch().setChecked(true);
             changeFragment(secondInit, fragment2);
-//            myToolbar.getSwitch().performClick();
             fragment2.scroll = true;
         }
     }
@@ -97,9 +101,7 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
             fragT.add(R.id.frame, fragment).commit();
             init.b = true;
         } else {
-//            currentFragment.visibility(View.GONE);
             fragT.hide(currentFragment).show(fragment).commit();
-//            fragment.visibility(View.VISIBLE);
         }
         currentFragment = fragment;
     }

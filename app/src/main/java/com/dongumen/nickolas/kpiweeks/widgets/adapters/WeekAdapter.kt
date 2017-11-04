@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.brandongogetap.stickyheaders.exposed.StickyHeaderHandler
+import com.dongumen.nickolas.kpiweeks.App
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.model.enteties.Day
 import com.dongumen.nickolas.kpiweeks.model.enteties.HeaderItem
@@ -19,10 +20,17 @@ import com.dongumen.nickolas.kpiweeks.utils.SimpleDiffCallback
 import kotlinx.android.synthetic.main.day_view.view.*
 import kotlinx.android.synthetic.main.lesson_view.view.*
 import kotlinx.android.synthetic.main.lessons_list_view.view.*
+import javax.inject.Inject
 
 
-open class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapter.BaseViewHolder>(), StickyHeaderHandler {
+class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapter.BaseViewHolder>(), StickyHeaderHandler {
 
+    @Inject
+    lateinit var dayInformationUtil: DayInformationUtil
+
+    init {
+        App.utilsComponent().inject(this)
+    }
 
     var week = Week()
         set(w) {
@@ -40,7 +48,6 @@ open class WeekAdapter(private val context: Context) : RecyclerView.Adapter<Week
     @SuppressLint("SetTextI18n", "InflateParams")
     override fun onBindViewHolder(holder: BaseViewHolder?, position: Int) {
         val item = list[position]
-        val dayInformationUtil = DayInformationUtil()
         if (getItemViewType(position) == 1) {
             item as HeaderItem
             val header = holder as HeaderHolder
@@ -48,7 +55,7 @@ open class WeekAdapter(private val context: Context) : RecyclerView.Adapter<Week
                 header.header.text = item.text
                 header.header.visibility = View.VISIBLE
             }
-        } else if(getItemViewType(position) == 2){
+        } else if (getItemViewType(position) == 2) {
             val day = item as Day
             val hold = holder as LessonHolder
             val vi = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -76,7 +83,7 @@ open class WeekAdapter(private val context: Context) : RecyclerView.Adapter<Week
     }
 
     override fun getItemViewType(position: Int): Int {
-        if (position % 2 == 0){
+        if (position % 2 == 0) {
             val day = list[position + 1] as Day
             if (day.lessons?.isEmpty()!!)
                 return 3

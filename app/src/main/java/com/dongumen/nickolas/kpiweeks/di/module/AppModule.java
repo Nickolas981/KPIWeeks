@@ -37,4 +37,22 @@ public final class AppModule {
     Executor provideExecutor() {
         return Executors.newCachedThreadPool();
     }
+/*
+    @Provides
+    @Singleton
+    public SharedPreferenceUtils provideSharedPreferencesUtils(Context context) {
+        return new SharedPreferenceUtils(context);
+    }
+
+    @Provides
+    @Singleton
+    public DayInformationUtil provideDayInformationUtil() {
+        return new DayInformationUtil();
+    }
+
+    @Provides
+    @Singleton
+    public ResponseToScheduleUtil provideResponseToScheduleUtil() {
+        return new ResponseToScheduleUtil();
+    }*/
 }
