@@ -12,6 +12,7 @@ import com.dongumen.nickolas.kpiweeks.R;
 import com.dongumen.nickolas.kpiweeks.fragments.WeekFragment;
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil;
 import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils;
+import com.dongumen.nickolas.kpiweeks.utils.WidgetUpdate;
 import com.dongumen.nickolas.kpiweeks.widgets.FragmentChanger;
 import com.dongumen.nickolas.kpiweeks.widgets.holders.MyToolbarHolder;
 
@@ -47,6 +48,7 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
             getFragmentManager().beginTransaction()
                     .remove(getFragmentManager().findFragmentById(R.id.frame)).commit();
             deletePreferences();
+            WidgetUpdate.Companion.updateWidget(getApplicationContext());
             startSearch();
         });
         loadPreferences();

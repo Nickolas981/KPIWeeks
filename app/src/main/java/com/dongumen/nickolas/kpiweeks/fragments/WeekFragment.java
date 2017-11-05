@@ -22,6 +22,7 @@ import com.dongumen.nickolas.kpiweeks.di.module.PresentersModule;
 import com.dongumen.nickolas.kpiweeks.model.enteties.Week;
 import com.dongumen.nickolas.kpiweeks.presenters.WeekPresenter;
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil;
+import com.dongumen.nickolas.kpiweeks.utils.WidgetUpdate;
 import com.dongumen.nickolas.kpiweeks.views.WeekView;
 import com.dongumen.nickolas.kpiweeks.widgets.FragmentChanger;
 import com.dongumen.nickolas.kpiweeks.widgets.adapters.WeekAdapter;
@@ -107,6 +108,8 @@ public class WeekFragment extends Fragment implements WeekView {
     public void showSchedule(@NotNull Week week) {
         weekAdapter.setWeek(week);
         scroll();
+        WidgetUpdate.Companion.updateWidget(getActivity().getApplicationContext());
+
     }
 
 

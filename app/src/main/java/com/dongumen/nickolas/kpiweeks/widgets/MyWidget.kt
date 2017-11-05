@@ -1,5 +1,6 @@
 package com.dongumen.nickolas.kpiweeks.widgets
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
@@ -14,14 +15,12 @@ import com.dongumen.nickolas.kpiweeks.model.enteties.Day
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
 import com.dongumen.nickolas.kpiweeks.utils.ResponseToScheduleUtil
 import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
-import com.dongumen.nickolas.kpiweeks.widgets.adapters.ListAdapter
 import javax.inject.Inject
 
 
 open class MyWidget : AppWidgetProvider() {
 
 
-    //
     @Inject
     lateinit var shared: SharedPreferenceUtils
     @Inject
@@ -29,17 +28,19 @@ open class MyWidget : AppWidgetProvider() {
     @Inject
     lateinit var parser: ResponseToScheduleUtil
 
-    lateinit var view: RemoteViews
-    lateinit var appWM: AppWidgetManager
-    lateinit var appWI: IntArray
-    lateinit var c: Context
+    companion object {
+        lateinit var view: RemoteViews
+        lateinit var appWM: AppWidgetManager
+        lateinit var appWI: IntArray
+        @SuppressLint("StaticFieldLeak")
+        lateinit var c: Context
+    }
+
     private val MyOnClick = "myOnClickTag"
-    private lateinit var adapter: ListAdapter
 
     override fun onEnabled(context: Context?) {
         super.onEnabled(context)
         App.utilsComponent().inject(this)
-        adapter = ListAdapter()
     }
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager,
@@ -50,7 +51,7 @@ open class MyWidget : AppWidgetProvider() {
         appWI = appWidgetIds
         c = context
         view = RemoteViews(context.packageName, R.layout.my_widget)
-        setClickListeners()
+//        setList(view, context, appWidgetIds[0])
         update()
     }
 
@@ -63,15 +64,12 @@ open class MyWidget : AppWidgetProvider() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
-        if (MyOnClick == intent?.action) {
-            update()
-        }
+        if (MyOnClick == intent?.action) update()
     }
 
     private fun update() {
         App.utilsComponent().inject(this)
         val str = shared.getStringValue("json", "")
-
         if (str != "") {
             view.setViewVisibility(R.id.list_view, View.VISIBLE)
             view.setViewVisibility(R.id.error_message, View.GONE)
@@ -79,27 +77,25 @@ open class MyWidget : AppWidgetProvider() {
         } else {
             view.setViewVisibility(R.id.list_view, View.GONE)
             view.setViewVisibility(R.id.error_message, View.VISIBLE)
+            view.setTextViewText(R.id.day_and_date, "")
         }
+        setClickListeners()
         appWM.updateAppWidget(appWI[0], view)
     }
 
-    fun getNormalDay(str: String): Day {
+    private fun getNormalDay(str: String): Day {
         var number = dayInfo.scrollTo()
-        var weekNumber = dayInfo.getWeekNumber()
+        val weekNumber = dayInfo.getWeekNumber()
         var week = parser.parseFromSharedPreference(str)[weekNumber - 1]
 
         while (number != 8) {
-            if (week.days[number].lessons?.isNotEmpty()!!) {
-                return week.days[number]
-            }
+            if (week.days[number].lessons?.isNotEmpty()!!) return week.days[number]
             number++
         }
         week = parser.parseFromSharedPreference(str)[anotherWeek(number) - 1]
         number = 0
         while (number != 7) {
-            if (week.days[number].lessons?.isNotEmpty()!!) {
-                return week.days[number]
-            }
+            if (week.days[number].lessons?.isNotEmpty()!!) return week.days[number]
             number++
         }
         return week.days[0]
@@ -107,11 +103,22 @@ open class MyWidget : AppWidgetProvider() {
 
     private fun anotherWeek(week: Int): Int = if (week == 1) 2 else 1
 
+/*    fun setList(rv: RemoteViews, context: Context, appWidgetId: Int) {
+        val adapter = Intent(context, MyService::class.java)
+        adapter.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        rv.setRemoteAdapter(R.id.list_view, adapter)
+    }*/
+
+
     private fun setClickListeners() {
-        view.setOnClickPendingIntent(R.id.day_and_date,
-                getPendingSelfIntent(c, MyOnClick))
+        /*    view.setOnClickPendingIntent(R.id.frame_layout,
+                    getPendingSelfIntent(c, MyOnClick))*/
         val intent = Intent(c, ScheduleActivity::class.java)
-        view.setOnClickPendingIntent(R.id.frame_layout, PendingIntent.getActivity(c, 1, intent, 0))
+        view.setOnClickPendingIntent(R.id.container, PendingIntent.getActivity(c, 1, intent, 0))
+        /*  val intentSync = Intent(c, this.javaClass)
+          intentSync.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE//You need to specify the action for the intent. Right now that intent is doing nothing for there is no action to be broadcasted.
+          val pendingSync = PendingIntent . getBroadcast (c, 0, intentSync, PendingIntent.FLAG_UPDATE_CURRENT); //You need to specify a proper flag for the intent. Or else the intent will become deleted.
+          view.setOnClickPendingIntent(R.id.frame_layout, pendingSync);*/
     }
 
 }
