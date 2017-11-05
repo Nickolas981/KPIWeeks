@@ -6,6 +6,7 @@ import com.dongumen.nickolas.kpiweeks.di.module.UtilsModule;
 import com.dongumen.nickolas.kpiweeks.model.remote.WeekDataSource;
 import com.dongumen.nickolas.kpiweeks.presenters.WeekPresenter;
 import com.dongumen.nickolas.kpiweeks.utils.ResponseToScheduleUtil;
+import com.dongumen.nickolas.kpiweeks.widgets.MyWidget;
 import com.dongumen.nickolas.kpiweeks.widgets.adapters.WeekAdapter;
 
 import javax.inject.Singleton;
@@ -25,6 +26,8 @@ public interface UtilsComponent {
     void inject(ResponseToScheduleUtil responseToScheduleUtil);
 
     void inject(WeekPresenter weekPresenter);
+
+    void inject(MyWidget myWidget);
 
     void inject(WeekAdapter weekAdapter);
 }

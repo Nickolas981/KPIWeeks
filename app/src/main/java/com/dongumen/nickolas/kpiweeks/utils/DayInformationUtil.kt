@@ -129,6 +129,7 @@ class DayInformationUtil {
             (System.currentTimeMillis() >= getTime(getStartTime(number),date)
                     && System.currentTimeMillis() <= getTime(getFinishTime(number), date))
 
+
 }
 
 private fun <E> MutableSet<E>.positionOf(day: String): Int = this

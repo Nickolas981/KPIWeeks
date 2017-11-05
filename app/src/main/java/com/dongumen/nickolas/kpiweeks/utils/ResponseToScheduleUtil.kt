@@ -14,6 +14,7 @@ class ResponseToScheduleUtil {
     lateinit var sharedPref: SharedPreferenceUtils
     @Inject
     lateinit var dayInfo: DayInformationUtil
+    val type = object : TypeToken<MutableList<Week>>() {}.type
 
     init {
         App.utilsComponent().inject(this)
@@ -37,10 +38,9 @@ class ResponseToScheduleUtil {
 
     fun parse(response: ResponseBody): MutableList<Week> {
         var list: MutableList<Week> = ArrayList()
-        val type = object : TypeToken<MutableList<Week>>() {}.type
         val str = response.string()
         if (!str.contains("data"))
-            list = GsonBuilder().create().fromJson(str, type)
+            list = parseFromSharedPreference(str)
         else {
             val json = JsonParser().parse(str)
                     .asJsonObject
@@ -50,9 +50,15 @@ class ResponseToScheduleUtil {
             list.add(parseWeek(json.getAsJsonObject("1")))
             list.add(parseWeek(json.getAsJsonObject("2")))
 
-            val resultInJson = GsonBuilder().create().toJson(list)
-            sharedPref.setValue("json", resultInJson)
+            writeIntoSharedPreference(list)
         }
         return list
+    }
+
+    fun parseFromSharedPreference(str: String) =
+            GsonBuilder().create().fromJson<MutableList<Week>>(str, type)!!
+
+    fun writeIntoSharedPreference(list: MutableList<Week>) {
+        sharedPref.setValue("json", GsonBuilder().create().toJson(list))
     }
 }

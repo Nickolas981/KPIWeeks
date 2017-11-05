@@ -53,7 +53,8 @@ class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapt
             val header = holder as HeaderHolder
             if ((list[position + 1] as Day).lessons?.isNotEmpty()!!) {
                 header.header.text = item.text
-                header.header.visibility = View.VISIBLE
+            } else {
+                header.header.visibility = View.GONE
             }
         } else if (getItemViewType(position) == 2) {
             val day = item as Day

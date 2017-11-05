@@ -40,6 +40,8 @@ dependencies {
     //retrofit
     // rx
     // dagger
+    compile 'com.mcxiaoke.koi:core:0.5.5'
+
     compile "org.jetbrains.anko:anko:0.10.2"
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3'
     compile 'com.brandongogetap:stickyheaders:0.4.9'
