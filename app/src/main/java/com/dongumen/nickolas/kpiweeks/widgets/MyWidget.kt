@@ -51,16 +51,15 @@ open class MyWidget : AppWidgetProvider() {
         appWI = appWidgetIds
         c = context
         view = RemoteViews(context.packageName, R.layout.my_widget)
-//        setList(view, context, appWidgetIds[0])
         update()
     }
 
 
-    private fun getPendingSelfIntent(context: Context, action: String): PendingIntent {
-        val intent = Intent(context, javaClass)
-        intent.action = action
-        return PendingIntent.getBroadcast(context, 0, intent, 0)
-    }
+    /*  private fun getPendingSelfIntent(context: Context, action: String): PendingIntent {
+          val intent = Intent(context, javaClass)
+          intent.action = action
+          return PendingIntent.getBroadcast(context, 0, intent, 0)
+      }*/
 
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
@@ -71,9 +70,11 @@ open class MyWidget : AppWidgetProvider() {
         App.utilsComponent().inject(this)
         val str = shared.getStringValue("json", "")
         if (str != "") {
+            var day = getNormalDay(str)
             view.setViewVisibility(R.id.list_view, View.VISIBLE)
             view.setViewVisibility(R.id.error_message, View.GONE)
-            view.setTextViewText(R.id.day_and_date, getNormalDay(str).dayName)
+            view.setTextViewText(R.id.day_and_date, day.dayName)
+            setList(view, c, appWI[0], day)
         } else {
             view.setViewVisibility(R.id.list_view, View.GONE)
             view.setViewVisibility(R.id.error_message, View.VISIBLE)
@@ -103,11 +104,12 @@ open class MyWidget : AppWidgetProvider() {
 
     private fun anotherWeek(week: Int): Int = if (week == 1) 2 else 1
 
-/*    fun setList(rv: RemoteViews, context: Context, appWidgetId: Int) {
+    private fun setList(rv: RemoteViews, context: Context, appWidgetId: Int, day: Day) {
         val adapter = Intent(context, MyService::class.java)
         adapter.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
+        adapter.putExtra("day", day.toString())
         rv.setRemoteAdapter(R.id.list_view, adapter)
-    }*/
+    }
 
 
     private fun setClickListeners() {

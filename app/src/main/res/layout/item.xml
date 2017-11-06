@@ -7,5 +7,5 @@
         android:id="@+id/tvItemText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"></TextView>
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 </RelativeLayout>

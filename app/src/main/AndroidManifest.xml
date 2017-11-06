@@ -32,7 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
+        <service
+            android:name=".widgets.MyService"
+            android:permission="android.permission.BIND_REMOTEVIEWS"></service>
         <receiver android:name=".widgets.MyWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
