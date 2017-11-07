@@ -1,4 +1,4 @@
-package com.dongumen.nickolas.kpiweeks.widgets
+package com.dongumen.nickolas.kpiweeks.services
 
 import android.annotation.SuppressLint
 import android.content.Intent

@@ -12,6 +12,7 @@ import com.dongumen.nickolas.kpiweeks.App
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.activities.ScheduleActivity
 import com.dongumen.nickolas.kpiweeks.model.enteties.Day
+import com.dongumen.nickolas.kpiweeks.services.MyService
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
 import com.dongumen.nickolas.kpiweeks.utils.ResponseToScheduleUtil
 import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
@@ -32,6 +33,7 @@ open class MyWidget : AppWidgetProvider() {
         lateinit var view: RemoteViews
         lateinit var appWM: AppWidgetManager
         lateinit var appWI: IntArray
+        lateinit var day: Day
         @SuppressLint("StaticFieldLeak")
         lateinit var c: Context
     }
@@ -70,7 +72,7 @@ open class MyWidget : AppWidgetProvider() {
         App.utilsComponent().inject(this)
         val str = shared.getStringValue("json", "")
         if (str != "") {
-            var day = getNormalDay(str)
+            day = getNormalDay(str)
             view.setViewVisibility(R.id.list_view, View.VISIBLE)
             view.setViewVisibility(R.id.error_message, View.GONE)
             view.setTextViewText(R.id.day_and_date, day.dayName)
@@ -109,6 +111,7 @@ open class MyWidget : AppWidgetProvider() {
         adapter.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         adapter.putExtra("day", day.toString())
         rv.setRemoteAdapter(R.id.list_view, adapter)
+        appWM.notifyAppWidgetViewDataChanged(appWidgetId, R.id.list_view)
     }
 
 

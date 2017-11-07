@@ -9,6 +9,7 @@ import android.widget.RemoteViewsService
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.model.enteties.Day
 import com.dongumen.nickolas.kpiweeks.model.enteties.Lesson
+import com.dongumen.nickolas.kpiweeks.widgets.MyWidget
 import com.google.gson.GsonBuilder
 import java.text.SimpleDateFormat
 import java.util.*
@@ -130,7 +131,7 @@ class MyFactory internal constructor() : RemoteViewsService.RemoteViewsFactory {
 
     override fun onDataSetChanged() {
         data.clear()
-        data.addAll(day.lessons)
+        data.addAll(MyWidget.day.lessons)
     }
 
     override fun onDestroy() {
