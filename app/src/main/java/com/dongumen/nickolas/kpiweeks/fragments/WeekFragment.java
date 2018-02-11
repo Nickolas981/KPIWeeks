@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.inject.Inject;
 
 
-public class WeekFragment extends Fragment implements WeekView {
+public class WeekFragment extends Fragment implements WeekView, WeekAdapter.OnDeleteListner {
 
     @Inject
     WeekPresenter presenter;
@@ -84,7 +84,7 @@ public class WeekFragment extends Fragment implements WeekView {
         View view = inflater.inflate(R.layout.fragment_week, container, false);
         recyclerView = view.findViewById(R.id.recycler_view);
         frameLayout = view.findViewById(R.id.container);
-        weekAdapter = new WeekAdapter(container.getContext());
+        weekAdapter = new WeekAdapter(container.getContext(), this);
         layoutManager = new TopSnappedStickyLayoutManager(container.getContext(), weekAdapter);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(weekAdapter);
@@ -113,4 +113,8 @@ public class WeekFragment extends Fragment implements WeekView {
     }
 
 
+    @Override
+    public void delete(int day, int position) {
+        presenter.deleteItem(week, day, position);
+    }
 }

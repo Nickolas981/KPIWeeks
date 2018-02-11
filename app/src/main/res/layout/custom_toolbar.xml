@@ -76,22 +76,34 @@
                 <!--app:ntb_preview_colors="@array/polluted_waves" />-->
         <!--</FrameLayout>-->
 
-        <com.kyleduo.switchbutton.SwitchButton
+        <!--        <com.kyleduo.switchbutton.SwitchButton
+                    android:id="@+id/weeks_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end|center_vertical"
+                    android:layout_marginEnd="10dp"
+                    android:fontFamily="@font/roboto_light"
+                    android:textColor="@color/white"
+                    app:kswBackDrawable="@drawable/my_border"
+                    app:kswBackMeasureRatio="2"
+                    app:kswBackRadius="1dp"
+                    app:kswTextOff="2"
+                    app:kswTextOn="1"
+                    app:kswThumbColor="@color/white"
+                    app:kswThumbHeight="25dp"
+                    app:kswThumbRadius="1dp"
+                    app:kswThumbWidth="35dp" />-->
+        <com.dongumen.nickolas.appleswitch.AppleSwitcher
             android:id="@+id/weeks_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             android:layout_marginEnd="10dp"
             android:fontFamily="@font/roboto_light"
-            android:textColor="@color/white"
-            app:kswBackDrawable="@drawable/my_border"
-            app:kswBackMeasureRatio="2"
-            app:kswBackRadius="1dp"
-            app:kswTextOff="2"
-            app:kswTextOn="1"
-            app:kswThumbColor="@color/white"
-            app:kswThumbHeight="25dp"
-            app:kswThumbRadius="1dp"
-            app:kswThumbWidth="35dp" />
+            app:textOn="2"
+            app:textOff="1"
+            app:backColor="@color/colorAccent">
+
+        </com.dongumen.nickolas.appleswitch.AppleSwitcher>
     </FrameLayout>
 </android.support.v7.widget.Toolbar>

@@ -7,5 +7,6 @@
     <color name="white">#ffffff</color>
     <color name="hz">#88E7C7</color>
     <color name="def">#808080</color>
+    <color name="redA400">#FF3D00</color>
     <!--<color name="colorAccent">#FF4081</color>-->
 </resources>

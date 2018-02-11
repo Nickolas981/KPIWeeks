@@ -10,8 +10,8 @@ android {
         applicationId "com.dongumen.nickolas.kpiweeks"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 3
-        versionName "0.3"
+        versionCode 4
+        versionName "0.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -41,7 +41,8 @@ dependencies {
     // rx
     // dagger
     compile 'com.mcxiaoke.koi:core:0.5.5'
-
+//    compile 'com.github.Nickolas981:AppleSwitcher:3262305bb9'
+    compile 'com.github.Nickolas981:AppleSwitcher:0.3.0'
     compile "org.jetbrains.anko:anko:0.10.2"
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3'
     compile 'com.brandongogetap:stickyheaders:0.4.9'
@@ -55,13 +56,14 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile 'com.github.Nickolas981:AppleSwitcher:99474d8e0f'
     compile 'com.google.dagger:dagger:2.0.2'
     compile 'com.jakewharton:butterknife:8.8.1'
     compile 'com.android.support:design:26.1.0'
     compile 'com.kyleduo.switchbutton:library:1.4.6'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.0.2'
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
 }
 repositories {
     mavenCentral()

@@ -23,7 +23,8 @@ import kotlinx.android.synthetic.main.lessons_list_view.view.*
 import javax.inject.Inject
 
 
-class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapter.BaseViewHolder>(), StickyHeaderHandler {
+class WeekAdapter(private val context: Context, private var onDeleteListner: OnDeleteListner)
+    : RecyclerView.Adapter<WeekAdapter.BaseViewHolder>(), StickyHeaderHandler {
 
     @Inject
     lateinit var dayInformationUtil: DayInformationUtil
@@ -31,6 +32,7 @@ class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapt
     init {
         App.utilsComponent().inject(this)
     }
+
 
     var week = Week()
         set(w) {
@@ -77,10 +79,22 @@ class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapt
                     }
                     v.lesson_start.text = lesson?.timeStart?.substring(0, 5)
                     v.lesson_end.text = lesson?.timeEnd?.substring(0, 5)
+                    v.delete.setOnClickListener(View.OnClickListener {
+                        removeAt(position, day.lessons.indexOf(lesson)
+                        )
+                    })
                     container.addView(v)
                 }
             }
         }
+    }
+
+    fun removeAt(position: Int, pos: Int) {
+        val day = list[position] as Day
+        day.lessons!!.removeAt(pos)
+        notifyDataSetChanged()
+        deleteElement(position / 2, pos)
+//        notifyItemRangeChanged(position, list.size)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -94,6 +108,9 @@ class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapt
 
     }
 
+    fun deleteElement(day: Int, position: Int) {
+        onDeleteListner.delete(day, position)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder {
         val view = LayoutInflater.from(parent?.context)
@@ -124,6 +141,9 @@ class WeekAdapter(private val context: Context) : RecyclerView.Adapter<WeekAdapt
         var container = itemView.container!!
     }
 
-
     open class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    interface OnDeleteListner {
+        fun delete(day: Int, position: Int)
+    }
 }

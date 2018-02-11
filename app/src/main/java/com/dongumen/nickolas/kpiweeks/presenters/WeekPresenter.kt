@@ -29,4 +29,8 @@ class WeekPresenter(val source: IWeekDataSource)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({ view?.showSchedule(it[week]) }))
     }
+
+    fun deleteItem(week: Int, day: Int, lesson: Int) {
+        responseToScheduleUtil.delete(week, day, lesson)
+    }
 }

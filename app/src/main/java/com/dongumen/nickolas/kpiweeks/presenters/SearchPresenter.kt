@@ -8,9 +8,6 @@ import com.dongumen.nickolas.kpiweeks.views.GroupSearchView
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-/**
- * Created by Nickolas on 15.10.2017.
- */
 class SearchPresenter(val source: ISearchDataSource) : BasePresenter<GroupSearchView>() {
     fun getGroups(str: String) {
         subscribe(source.getGroups(str)
@@ -21,4 +18,5 @@ class SearchPresenter(val source: ISearchDataSource) : BasePresenter<GroupSearch
                 .subscribe({ view?.showPredictions(it) }, {RxErrorAction(view?.context!!)})
         )
     }
+
 }

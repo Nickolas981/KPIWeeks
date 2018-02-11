@@ -61,4 +61,11 @@ class ResponseToScheduleUtil {
     fun writeIntoSharedPreference(list: MutableList<Week>) {
         sharedPref.setValue("json", GsonBuilder().create().toJson(list))
     }
+
+    fun delete(week: Int, day: Int, lesson: Int) {
+        val str = sharedPref.getStringValue("json", "")
+        val res = parseFromSharedPreference(str)
+        res[week].days[day].lessons!!.removeAt(lesson)
+        writeIntoSharedPreference(res)
+    }
 }
