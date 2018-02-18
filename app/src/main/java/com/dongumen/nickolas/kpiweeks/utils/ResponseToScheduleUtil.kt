@@ -36,11 +36,24 @@ class ResponseToScheduleUtil {
         return week
     }
 
+    private fun refreshDates(list: MutableList<Week>) {
+        for (week in list) {
+            val dates = dayInfo.getDates(week.weekNumber.toInt() - 1)
+            for (i in 0..5) {
+                val day = week.days[i]
+                day.dayName = day.dayName!!.split(" ".toRegex())[0]
+                day.dayName += " " + dates[i]
+            }
+        }
+    }
+
     fun parse(response: ResponseBody): MutableList<Week> {
         var list: MutableList<Week> = ArrayList()
         val str = response.string()
-        if (!str.contains("data"))
+        if (!str.contains("data")) {
             list = parseFromSharedPreference(str)
+            refreshDates(list)
+        }
         else {
             val json = JsonParser().parse(str)
                     .asJsonObject

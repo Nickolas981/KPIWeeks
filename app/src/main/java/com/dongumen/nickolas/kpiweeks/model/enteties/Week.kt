@@ -10,6 +10,7 @@ class Week {
         days.add(day)
     }
 
+
     fun getAsList() : MutableList<Item>{
         val list : MutableList<Item> = ArrayList()
 

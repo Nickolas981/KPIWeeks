@@ -107,6 +107,7 @@ public class WeekFragment extends Fragment implements WeekView, WeekAdapter.OnDe
     @Override
     public void showSchedule(@NotNull Week week) {
         weekAdapter.setWeek(week);
+        1
         scroll();
         WidgetUpdate.Companion.updateWidget(getActivity().getApplicationContext());
 
