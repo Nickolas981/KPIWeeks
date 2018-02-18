@@ -39,15 +39,19 @@ class DayInformationUtil {
     fun getWeekNumber(): Int {
         val semester = getSemesterNumber()
         val calendar = Calendar.getInstance()
-        val firstWeek: Int
+        var firstWeek: Int
         val currentWeek = calendar.get(Calendar.WEEK_OF_YEAR)
         if (semester == 1) {
             calendar.set(calendar.get(Calendar.YEAR), Calendar.SEPTEMBER, 0)
         } else if (semester == 2) {
-            calendar.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 0)
+            calendar.set(calendar.get(Calendar.YEAR), Calendar.JANUARY, 1)
         }
         firstWeek = calendar.get(Calendar.WEEK_OF_YEAR)
-        return (currentWeek - firstWeek) % 2 + 1
+        if (semester == 2) {
+            firstWeek = 0
+        }
+        var i = (currentWeek - firstWeek) % 2 + 1
+        return i
     }
 
     fun getDates(number: Int): List<String> {
