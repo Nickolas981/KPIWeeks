@@ -75,7 +75,7 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
                 changeFragment(secondInit, fragment2);
         });
         int currentWeek = dayInformationUtil.getWeekNumber();
-        if (currentWeek == 0) {
+        if (currentWeek == 1) {
             changeFragment(firstInit, fragment1);
             myToolbar.getSwitch().setChecked(false);
             fragment1.scroll = true;
