@@ -43,7 +43,6 @@ dependencies {
     // dagger
     compile 'com.mcxiaoke.koi:core:0.5.5'
     implementation 'com.github.Nickolas981:AppleSwitcher:0.3.0'
-    implementation "org.jetbrains.anko:anko:0.10.2"
     implementation 'com.timehop.stickyheadersrecyclerview:library:0.4.3'
     implementation 'com.brandongogetap:stickyheaders:0.4.9'
     implementation 'devlight.io:navigationtabbar:1.2.5'
@@ -53,14 +52,15 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.0.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
     implementation 'com.squareup.retrofit2:converter-scalars:2.0.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     implementation 'io.reactivex:rxandroid:1.2.1'
-    implementation 'io.reactivex:rxjava:1.1.6'
     implementation 'com.github.Nickolas981:AppleSwitcher:99474d8e0f'
     implementation 'com.jakewharton:butterknife:8.8.1'
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.kyleduo.switchbutton:library:1.4.6'
     implementation "com.daimajia.swipelayout:library:1.2.0@aar"
+
+    compile 'com.arello-mobile:moxy:1.5.5'
+    kapt 'com.arello-mobile:moxy-compiler:1.5.5'
 
     implementation "org.koin:koin-core:$koin_version"
     implementation "org.koin:koin-android:$koin_version"
