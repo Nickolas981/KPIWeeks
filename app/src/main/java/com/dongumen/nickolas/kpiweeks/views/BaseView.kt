@@ -1,10 +1,8 @@
 package com.dongumen.nickolas.kpiweeks.views
 
-import android.content.Context
+import com.arellomobile.mvp.MvpView
 
 
-interface BaseView {
-
-    val context: Context
+interface BaseView : MvpView {
 
 }

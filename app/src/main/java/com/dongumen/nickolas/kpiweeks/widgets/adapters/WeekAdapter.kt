@@ -1,6 +1,5 @@
 package com.dongumen.nickolas.kpiweeks.widgets.adapters
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
@@ -9,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.brandongogetap.stickyheaders.exposed.StickyHeaderHandler
-import com.dongumen.nickolas.kpiweeks.App
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.model.enteties.Day
 import com.dongumen.nickolas.kpiweeks.model.enteties.HeaderItem
@@ -20,35 +18,15 @@ import com.dongumen.nickolas.kpiweeks.utils.SimpleDiffCallback
 import kotlinx.android.synthetic.main.day_view.view.*
 import kotlinx.android.synthetic.main.lesson_view.view.*
 import kotlinx.android.synthetic.main.lessons_list_view.view.*
-import javax.inject.Inject
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
 
-class WeekAdapter(private val context: Context, private var onDeleteListner: OnDeleteListner)
-    : RecyclerView.Adapter<WeekAdapter.BaseViewHolder>(), StickyHeaderHandler {
-
-    @Inject
-    lateinit var dayInformationUtil: DayInformationUtil
-
-    init {
-        App.utilsComponent().inject(this)
-    }
+class WeekAdapter(private var onDeleteListener: OnDeleteListener)
+    : RecyclerView.Adapter<WeekAdapter.BaseViewHolder>(), StickyHeaderHandler, KoinComponent {
 
 
-    var week = Week()
-        set(w) {
-            val diffResult = DiffUtil.calculateDiff(SimpleDiffCallback(list, w.getAsList()))
-            field = w
-            list = week.getAsList()
-            diffResult.dispatchUpdatesTo(this)
-        }
-    private var list: MutableList<Item> = ArrayList()
-
-
-    override fun getAdapterData(): MutableList<*> = list
-
-
-    @SuppressLint("SetTextI18n", "InflateParams")
-    override fun onBindViewHolder(holder: BaseViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         val item = list[position]
         if (getItemViewType(position) == 1) {
             item as HeaderItem
@@ -61,7 +39,7 @@ class WeekAdapter(private val context: Context, private var onDeleteListner: OnD
         } else if (getItemViewType(position) == 2) {
             val day = item as Day
             val hold = holder as LessonHolder
-            val vi = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val vi = holder.itemView.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             hold.container.removeAllViews()
             for (lesson in day.lessons!!) {
                 with(hold) {
@@ -79,41 +57,18 @@ class WeekAdapter(private val context: Context, private var onDeleteListner: OnD
                     }
                     v.lesson_start.text = lesson?.timeStart?.substring(0, 5)
                     v.lesson_end.text = lesson?.timeEnd?.substring(0, 5)
-                    v.delete.setOnClickListener(View.OnClickListener {
+                    v.delete.setOnClickListener {
                         removeAt(position, day.lessons.indexOf(lesson)
                         )
-                    })
+                    }
                     container.addView(v)
                 }
             }
         }
     }
 
-    fun removeAt(position: Int, pos: Int) {
-        val day = list[position] as Day
-        day.lessons!!.removeAt(pos)
-        notifyDataSetChanged()
-        deleteElement(position / 2, pos)
-//        notifyItemRangeChanged(position, list.size)
-    }
-
-    override fun getItemViewType(position: Int): Int {
-        if (position % 2 == 0) {
-            val day = list[position + 1] as Day
-            if (day.lessons?.isEmpty()!!)
-                return 3
-            return 1
-        }
-        return 2
-
-    }
-
-    fun deleteElement(day: Int, position: Int) {
-        onDeleteListner.delete(day, position)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder {
-        val view = LayoutInflater.from(parent?.context)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        val view = LayoutInflater.from(parent.context)
                 .inflate(
                         when (viewType) {
                             1 -> R.layout.day_view
@@ -129,6 +84,43 @@ class WeekAdapter(private val context: Context, private var onDeleteListner: OnD
             LessonHolder(view))
     }
 
+    private val dayInformationUtil: DayInformationUtil by inject()
+
+
+    var week = Week()
+        set(w) {
+            val diffResult = DiffUtil.calculateDiff(SimpleDiffCallback(list, w.getAsList()))
+            field = w
+            list = week.getAsList()
+            diffResult.dispatchUpdatesTo(this)
+        }
+    private var list: MutableList<Item> = ArrayList()
+
+
+    override fun getAdapterData(): MutableList<*> = list
+
+
+    private fun removeAt(position: Int, pos: Int) {
+        val day = list[position] as Day
+        day.lessons!!.removeAt(pos)
+        notifyDataSetChanged()
+        deleteElement(position / 2, pos)
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (position % 2 == 0) {
+            val day = list[position + 1] as Day
+            if (day.lessons?.isEmpty()!!)
+                return 3
+            return 1
+        }
+        return 2
+
+    }
+
+    private fun deleteElement(day: Int, position: Int) {
+        onDeleteListener.delete(day, position)
+    }
 
     override fun getItemCount(): Int = list.size
 
@@ -143,7 +135,7 @@ class WeekAdapter(private val context: Context, private var onDeleteListner: OnD
 
     open class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    interface OnDeleteListner {
+    interface OnDeleteListener {
         fun delete(day: Int, position: Int)
     }
 }

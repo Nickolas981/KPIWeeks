@@ -9,7 +9,7 @@ import kotlin.collections.ArrayList
 class DayInformationUtil {
 
 
-    fun getStartTime(lessonId: String): String {
+    private fun getStartTime(lessonId: String): String {
         return when (lessonId) {
             "1" -> "8:30"
             "2" -> "10:25"
@@ -22,7 +22,7 @@ class DayInformationUtil {
         }
     }
 
-    fun getFinishTime(lessonId: String): String {
+    private fun getFinishTime(lessonId: String): String {
         return when (lessonId) {
             "1" -> "10:05"
             "2" -> "12:00"
@@ -50,8 +50,7 @@ class DayInformationUtil {
         if (semester == 2) {
             firstWeek = 0
         }
-        var i = (currentWeek - firstWeek) % 2 + 1
-        return i
+        return (currentWeek - firstWeek) % 2 + 1
     }
 
     fun getDates(number: Int): List<String> {

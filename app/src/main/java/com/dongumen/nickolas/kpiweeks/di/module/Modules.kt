@@ -3,6 +3,8 @@ package com.dongumen.nickolas.kpiweeks.di.module
 import android.content.Context
 import com.dongumen.nickolas.kpiweeks.Constants
 import com.dongumen.nickolas.kpiweeks.api.KpiApi
+import com.dongumen.nickolas.kpiweeks.model.remote.ISearchDataSource
+import com.dongumen.nickolas.kpiweeks.model.remote.IWeekDataSource
 import com.dongumen.nickolas.kpiweeks.model.remote.SearchDataSource
 import com.dongumen.nickolas.kpiweeks.model.remote.WeekDataSource
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
@@ -24,8 +26,8 @@ val apiModule = module {
                 .build()
                 .create(KpiApi::class.java)
     }
-    single { SearchDataSource(get()) }
-    single { WeekDataSource(get()) }
+    single { SearchDataSource(get()) as ISearchDataSource }
+    single { WeekDataSource(get()) as IWeekDataSource }
 }
 
 val appModule = module {

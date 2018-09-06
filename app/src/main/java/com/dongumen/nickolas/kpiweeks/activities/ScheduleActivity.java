@@ -66,8 +66,8 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
 
     private void startAction() {
         myToolbar.getTitle().setText(name.toUpperCase());
-        fragment1 = WeekFragment.newInstance(0, name, this, dayInformationUtil);
-        fragment2 = WeekFragment.newInstance(1, name, this, dayInformationUtil);
+        fragment1 = WeekFragment.Companion.newInstance(0, name, this, dayInformationUtil);
+        fragment2 = WeekFragment.Companion.newInstance(1, name, this, dayInformationUtil);
         myToolbar.getSwitch().setOnCheckedChangeListener((compoundButton, b) -> {
             if (!b)
                 changeFragment(firstInit, fragment1);
@@ -78,11 +78,11 @@ public class ScheduleActivity extends AppCompatActivity implements FragmentChang
         if (currentWeek == 1) {
             changeFragment(firstInit, fragment1);
             myToolbar.getSwitch().setChecked(false);
-            fragment1.scroll = true;
+            fragment1.setScroll(true);
         } else {
             myToolbar.getSwitch().setChecked(true);
             changeFragment(secondInit, fragment2);
-            fragment2.scroll = true;
+            fragment2.setScroll(true);
         }
     }
 
