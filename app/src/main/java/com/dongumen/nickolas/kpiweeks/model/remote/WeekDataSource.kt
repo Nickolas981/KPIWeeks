@@ -1,7 +1,7 @@
 package com.dongumen.nickolas.kpiweeks.model.remote
 
-import com.dongumen.nickolas.kpiweeks.api.KpiApi
 import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
+import com.dongumen.nickolas.kpiweeks.web.api.KpiApi
 import okhttp3.MediaType
 import okhttp3.ResponseBody
 import org.koin.standalone.KoinComponent

@@ -53,7 +53,7 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
     }
 
     private fun startSearch() {
-        val intent = Intent(this, GroupSearch::class.java)
+        val intent = Intent(this, GroupSearchActivity::class.java)
         startActivityForResult(intent, 1)
     }
 

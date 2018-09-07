@@ -2,9 +2,7 @@ package com.dongumen.nickolas.kpiweeks.fragments
 
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -55,15 +53,18 @@ class WeekFragment : MvpAppCompatFragment(), WeekView, WeekAdapter.OnDeleteListe
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        presenter!!.view = this
+        presenter.view = this
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_week, container, false)
+        return inflater.inflate(R.layout.fragment_week, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.adapter = weekAdapter
-        presenter!!.getSchedule(name, week)
-        return view
+        presenter.getSchedule(name, week)
     }
 
     private fun scroll() {
@@ -83,7 +84,7 @@ class WeekFragment : MvpAppCompatFragment(), WeekView, WeekAdapter.OnDeleteListe
 
 
     override fun delete(day: Int, position: Int) {
-        presenter!!.deleteItem(week, day, position)
+        presenter.deleteItem(week, day, position)
     }
 
     companion object {

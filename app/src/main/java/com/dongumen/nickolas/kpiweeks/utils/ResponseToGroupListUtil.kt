@@ -10,7 +10,7 @@ class ResponseToGroupListUtil {
             val arr: MutableList<String> = ArrayList()
             val res = response.string()
 
-            val r = JSONObject(res).getJSONArray("data")
+            val r = JSONObject(res).getJSONArray("results")
 
             (0 until r.length())
                     .map { r.getJSONObject(it) }

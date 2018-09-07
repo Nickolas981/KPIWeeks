@@ -45,13 +45,13 @@ class ResponseToScheduleUtil : KoinComponent {
     fun parse(response: ResponseBody): MutableList<Week> {
         var list: MutableList<Week> = ArrayList()
         val str = response.string()
-        if (!str.contains("data")) {
+        if (!str.contains("results")) {
             list = parseFromSharedPreference(str)
             refreshDates(list)
         } else {
             val json = JsonParser().parse(str)
                     .asJsonObject
-                    .getAsJsonObject("data")
+                    .getAsJsonObject("results")
                     .getAsJsonObject("weeks")
 
             list.add(parseWeek(json.getAsJsonObject("1")))
