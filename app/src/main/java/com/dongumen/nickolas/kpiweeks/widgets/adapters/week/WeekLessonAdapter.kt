@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.lesson_view.view.*
 import kotlinx.android.synthetic.main.lessons_list_view.*
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
-
+//Todo : Create adapter for each lesson
 class WeekLessonAdapter(private val onDeleteClicked: (Lesson) -> Unit) : DelegateAdapter<Item>(), KoinComponent {
 
     private val dayInformationUtil by inject<DayInformationUtil>()
