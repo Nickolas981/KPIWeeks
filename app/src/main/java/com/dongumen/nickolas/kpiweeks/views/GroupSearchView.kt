@@ -1,6 +1,8 @@
 package com.dongumen.nickolas.kpiweeks.views
 
+import com.dongumen.nickolas.kpiweeks.model.enteties.groups.Group
+
 
 interface GroupSearchView  : BaseView{
-    fun showPredictions(strings : List<String>)
+    fun showPredictions(groups : List<Group>)
 }
