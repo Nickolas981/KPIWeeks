@@ -4,5 +4,8 @@
     <string name="title_activity_asd">asd</string>
 
     <string name="widget_error_message">Натисніть щоб обрати групу</string>
+    <string name="kpi_weeks">KPI Weeks</string>
+    <string name="input_group">Введіть назву групи</string>
+    <string name="language_hint">Українською мовою, через дефіз</string>
 
 </resources>
