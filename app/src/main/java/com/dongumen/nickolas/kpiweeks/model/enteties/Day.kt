@@ -13,7 +13,7 @@ data class Day(
 
         @field:SerializedName("lessons")
         val lessons: MutableList<Lesson?>? = null
-) : Item() {
+) : Item {
     override fun toString(): String {
         return GsonBuilder().create().toJson(this)
     }

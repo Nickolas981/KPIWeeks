@@ -1,22 +1,26 @@
 package com.dongumen.nickolas.kpiweeks.presenters
 
 import com.dongumen.nickolas.kpiweeks.model.remote.ISearchDataSource
-import com.dongumen.nickolas.kpiweeks.utils.ResponseToGroupListUtil
-import com.dongumen.nickolas.kpiweeks.utils.rx.RxErrorAction
-import com.dongumen.nickolas.kpiweeks.utils.rx.RxRetryWithDelay
 import com.dongumen.nickolas.kpiweeks.views.GroupSearchView
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
+import org.koin.standalone.inject
 
-class SearchPresenter(val source: ISearchDataSource) : BasePresenter<GroupSearchView>() {
+class SearchPresenter : BasePresenter<GroupSearchView>() {
+
+    private val source: ISearchDataSource by inject()
+
     fun getGroups(str: String) {
-        subscribe(source.getGroups(str)
-                .retryWhen(RxRetryWithDelay())
-                .map<List<String>> { ResponseToGroupListUtil.parse(it) }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ view?.showPredictions(it) }, {RxErrorAction(view?.context!!)})
-        )
+        launch(CommonPool) {
+            source.getGroups(str).await()
+                    .body()
+                    ?.let {
+                        launch(UI) {
+                            viewState.showPredictions(it)
+                        }
+                    }
+        }
     }
 
 }

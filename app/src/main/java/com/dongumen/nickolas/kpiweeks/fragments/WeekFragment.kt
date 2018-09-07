@@ -1,7 +1,6 @@
 package com.dongumen.nickolas.kpiweeks.fragments
 
 
-import android.app.Fragment
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
@@ -10,10 +9,10 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.model.enteties.Item
-import com.dongumen.nickolas.kpiweeks.model.enteties.Week
 import com.dongumen.nickolas.kpiweeks.presenters.WeekPresenter
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
 import com.dongumen.nickolas.kpiweeks.views.WeekView
@@ -26,11 +25,11 @@ import kotlinx.android.synthetic.main.fragment_week.*
 import org.koin.android.ext.android.inject
 
 
-class WeekFragment : Fragment(), WeekView, WeekAdapter.OnDeleteListener {
+class WeekFragment : MvpAppCompatFragment(), WeekView, WeekAdapter.OnDeleteListener {
 
     var scroll = false
     @InjectPresenter
-    private var presenter: WeekPresenter? = null
+    lateinit var presenter: WeekPresenter
     private val dayInformationUtil: DayInformationUtil by inject()
 
     private val weekAdapter by lazy {
@@ -39,12 +38,14 @@ class WeekFragment : Fragment(), WeekView, WeekAdapter.OnDeleteListener {
                 .add(WeekLessonAdapter {})
                 .build()
     }
+
     private lateinit var fragmentChanger: FragmentChanger
+
     private val week: Int by lazy {
-        arguments.getInt("weekNumber")
+        arguments?.getInt("weekNumber") ?: 0
     }
     private val name: String by lazy {
-        arguments.getString("name", "")
+        arguments?.getString("name", "") ?: ""
     }
 
     override fun onAttach(context: Context?) {
@@ -57,15 +58,11 @@ class WeekFragment : Fragment(), WeekView, WeekAdapter.OnDeleteListener {
         presenter!!.view = this
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_week, container, false)
         recycler_view.layoutManager = LinearLayoutManager(activity)
         recycler_view.adapter = weekAdapter
         presenter!!.getSchedule(name, week)
-
         return view
     }
 
@@ -79,11 +76,9 @@ class WeekFragment : Fragment(), WeekView, WeekAdapter.OnDeleteListener {
     }
 
 
-    override fun showSchedule(week: Week) {
-        weekAdapter.week = week
+    override fun showSchedule(schedule: List<Item>) {
+        weekAdapter.swapData(schedule)
         scroll()
-//        WidgetUpdate.updateWidget(activity.applicationContext)
-
     }
 
 
@@ -92,7 +87,6 @@ class WeekFragment : Fragment(), WeekView, WeekAdapter.OnDeleteListener {
     }
 
     companion object {
-
         fun newInstance(weekNumber: Int, name: String): WeekFragment {
             val weekFragment = WeekFragment()
             val bundle = Bundle()

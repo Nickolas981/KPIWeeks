@@ -1,24 +1,19 @@
 package com.dongumen.nickolas.kpiweeks.utils
 
-import com.dongumen.nickolas.kpiweeks.App
 import com.dongumen.nickolas.kpiweeks.model.enteties.Day
 import com.dongumen.nickolas.kpiweeks.model.enteties.Week
 import com.google.gson.*
 import com.google.gson.reflect.TypeToken
 import okhttp3.ResponseBody
-import javax.inject.Inject
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.inject
 
 
-class ResponseToScheduleUtil {
-    @Inject
-    lateinit var sharedPref: SharedPreferenceUtils
-    @Inject
-    lateinit var dayInfo: DayInformationUtil
-    val type = object : TypeToken<MutableList<Week>>() {}.type
+class ResponseToScheduleUtil : KoinComponent {
 
-    init {
-        App.utilsComponent().inject(this)
-    }
+    private val sharedPref: SharedPreferenceUtils by inject()
+    private val dayInfo: DayInformationUtil by inject()
+    val type = object : TypeToken<MutableList<Week>>() {}.type!!
 
     private fun parseWeek(js: JsonObject): Week {
         val week = Week()
@@ -53,8 +48,7 @@ class ResponseToScheduleUtil {
         if (!str.contains("data")) {
             list = parseFromSharedPreference(str)
             refreshDates(list)
-        }
-        else {
+        } else {
             val json = JsonParser().parse(str)
                     .asJsonObject
                     .getAsJsonObject("data")
@@ -71,7 +65,7 @@ class ResponseToScheduleUtil {
     fun parseFromSharedPreference(str: String) =
             GsonBuilder().create().fromJson<MutableList<Week>>(str, type)!!
 
-    fun writeIntoSharedPreference(list: MutableList<Week>) {
+    private fun writeIntoSharedPreference(list: MutableList<Week>) {
         sharedPref.setValue("json", GsonBuilder().create().toJson(list))
     }
 

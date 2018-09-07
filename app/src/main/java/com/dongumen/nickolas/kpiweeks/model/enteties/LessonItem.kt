@@ -11,4 +11,4 @@ data class LessonItem(
         val dayName: String,
         val timeStart: String,
         val timeEnd: String
-)
+) : Item
