@@ -59,19 +59,22 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
 
     private fun startAction() {
         myToolbar.title.text = name.toUpperCase()
-        myToolbar.switch.setOnCheckedChangeListener { _, b ->
-            if (!b)
+        myToolbar.segmented.setOnCheckedChangeListener { _, checkedId ->
+            if (checkedId == myToolbar.buttonOne.id) {
                 changeFragment(firstInit, fragment1)
-            else
+            } else {
                 changeFragment(secondInit, fragment2)
+            }
         }
         val currentWeek = dayInformationUtil.getWeekNumber()
         if (currentWeek == 1) {
             changeFragment(firstInit, fragment1)
-            myToolbar.switch.isChecked = false
+            myToolbar.buttonOne.isChecked = true
+            myToolbar.buttonTwo.isChecked = false
             fragment1.scroll = true
         } else {
-            myToolbar.switch.isChecked = true
+            myToolbar.buttonTwo.isChecked = true
+            myToolbar.buttonOne.isChecked = false
             changeFragment(secondInit, fragment2)
             fragment2.scroll = true
         }
@@ -107,7 +110,7 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
     }
 
     override fun change() {
-        myToolbar.switch.performClick()
+        myToolbar.segmented.performClick()
     }
 
     private inner class Bool {

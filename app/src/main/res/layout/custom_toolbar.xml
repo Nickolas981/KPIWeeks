@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.Toolbar
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="44dp"
     android:background="?attr/colorPrimary"
+    android:paddingEnd="8dp"
+    android:paddingStart="8dp"
     app:contentInsetStart="0dp"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:layout_collapseMode="pin"
     app:layout_scrollFlags="scroll|enterAlways"
-    app:layout_collapseMode="pin">
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -26,24 +28,20 @@
                 android:layout_width="20dp"
                 android:layout_height="wrap_content"
                 android:background="@null"
+                android:contentDescription="BackButton"
                 android:src="@drawable/ic_chevron_left_black_24dp"
-                android:tint="@color/white"
-                android:contentDescription="BackButton" />
+                android:tint="@color/white" />
 
             <TextView
+                android:id="@+id/back_button_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:id="@+id/back_button_text"
                 android:fontFamily="@font/roboto_light"
                 android:text="Меню"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
         </LinearLayout>
-
-
-
-
 
         <TextView
             android:id="@+id/toolbar_title"
@@ -58,52 +56,31 @@
             android:textColor="@color/white"
             android:visibility="visible" />
 
-        <!--<FrameLayout-->
-            <!--android:layout_height="30dp"-->
-            <!--android:layout_width="60dp"-->
-            <!--android:background="@drawable/my_border"-->
-            <!--android:layout_gravity="end|center_vertical"-->
-            <!--android:padding="2dp"-->
-            <!--android:layout_marginEnd="10dp">-->
-
-            <!--<devlight.io.library.ntb.NavigationTabBar-->
-                <!--android:id="@+id/ntb_sample_6"-->
-                <!--android:layout_width="60dp"-->
-                <!--android:layout_height="30dp"-->
-                <!--android:background="@drawable/my_border"-->
-                <!--app:ntb_bg_color="@color/colorPrimary"-->
-                <!--app:ntb_corners_radius="2dp"-->
-                <!--app:ntb_preview_colors="@array/polluted_waves" />-->
-        <!--</FrameLayout>-->
-
-        <!--        <com.kyleduo.switchbutton.SwitchButton
-                    android:id="@+id/weeks_switch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end|center_vertical"
-                    android:layout_marginEnd="10dp"
-                    android:fontFamily="@font/roboto_light"
-                    android:textColor="@color/white"
-                    app:kswBackDrawable="@drawable/my_border"
-                    app:kswBackMeasureRatio="2"
-                    app:kswBackRadius="1dp"
-                    app:kswTextOff="2"
-                    app:kswTextOn="1"
-                    app:kswThumbColor="@color/white"
-                    app:kswThumbHeight="25dp"
-                    app:kswThumbRadius="1dp"
-                    app:kswThumbWidth="35dp" />-->
-        <com.dongumen.nickolas.appleswitch.AppleSwitcher
-            android:id="@+id/weeks_switch"
-            android:layout_width="wrap_content"
+        <info.hoang8f.android.segmented.SegmentedGroup
+            android:id="@+id/segmented"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center_vertical"
-            android:layout_marginEnd="10dp"
-            android:fontFamily="@font/roboto_light"
-            app:textOn="2"
-            app:textOff="1"
-            app:backColor="@color/colorAccent">
+            android:layout_gravity="center_vertical|end"
+            android:orientation="horizontal"
+            app:sc_checked_text_color="@color/colorAccent"
+            app:sc_tint_color="@color/white">
 
-        </com.dongumen.nickolas.appleswitch.AppleSwitcher>
+            <RadioButton
+                android:id="@+id/radio_1"
+                style="@style/RadioButton"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="1" />
+
+            <RadioButton
+                android:id="@+id/radio_2"
+                style="@style/RadioButton"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:text="2" />
+
+        </info.hoang8f.android.segmented.SegmentedGroup>
+
     </FrameLayout>
 </android.support.v7.widget.Toolbar>
