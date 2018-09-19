@@ -1,9 +1,8 @@
 package com.dongumen.nickolas.kpiweeks.model.remote
 
-import kotlinx.coroutines.experimental.Deferred
-import okhttp3.ResponseBody
+import com.dongumen.nickolas.kpiweeks.model.enteties.Week
 
 
 interface IWeekDataSource {
-    fun getSchedule(group: String): Deferred<ResponseBody>
+    fun getSchedule(group: String): List<Week>
 }

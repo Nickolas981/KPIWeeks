@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.fragments.WeekFragment
+import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.ui.GroupSearchActivity
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
 import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
 import com.dongumen.nickolas.kpiweeks.utils.WidgetUpdate

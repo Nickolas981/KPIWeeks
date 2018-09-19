@@ -2,10 +2,10 @@ package com.dongumen.nickolas.kpiweeks.widgets.listeners
 
 import android.text.Editable
 import android.text.TextWatcher
-import com.dongumen.nickolas.kpiweeks.presenters.SearchPresenter
+import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.GroupSearchPresenter
 import org.json.JSONObject
 
-internal class TextListener(var presenter: SearchPresenter) : TextWatcher {
+internal class TextListener(var presenter: GroupSearchPresenter) : TextWatcher {
 
     override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 

@@ -15,7 +15,8 @@
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme.NoActionBar">
 
-        <activity android:name="com.dongumen.nickolas.kpiweeks.activities.GroupSearchActivity"
+        <activity
+            android:name="com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.ui.GroupSearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/GroupSearch"/>
 

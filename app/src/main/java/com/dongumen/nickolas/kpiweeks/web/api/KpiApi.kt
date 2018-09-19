@@ -1,6 +1,6 @@
 package com.dongumen.nickolas.kpiweeks.web.api
 
-import com.dongumen.nickolas.kpiweeks.model.enteties.groups.GroupResponse
+import com.dongumen.nickolas.kpiweeks.pages.groupSearch.models.GroupResponse
 import com.dongumen.nickolas.kpiweeks.web.GROUPS
 import com.dongumen.nickolas.kpiweeks.web.TIMETABLE
 import kotlinx.coroutines.experimental.Deferred

@@ -20,8 +20,6 @@ class WeekPresenter : BasePresenter<WeekView>() {
         Log.d("WeekPresenter", "group:$group\tweek:$week")
         launch(CommonPool) {
             source.getSchedule(group)
-                    .await()
-                    .let { responseToScheduleUtil.parse(it) }
                     .let { it[week] }.getAsList()
                     .run { launch(UI) { view?.showSchedule(this@run) } }
         }

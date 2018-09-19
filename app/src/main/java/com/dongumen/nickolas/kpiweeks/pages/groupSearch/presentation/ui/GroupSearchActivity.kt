@@ -1,4 +1,4 @@
-package com.dongumen.nickolas.kpiweeks.activities
+package com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.ui
 
 import android.app.Activity
 import android.content.Intent
@@ -9,19 +9,20 @@ import com.arellomobile.mvp.presenter.InjectPresenter
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.global.extentions.afterTextChanged
 import com.dongumen.nickolas.kpiweeks.global.extentions.setVisibility
-import com.dongumen.nickolas.kpiweeks.model.enteties.groups.Group
-import com.dongumen.nickolas.kpiweeks.presenters.SearchPresenter
-import com.dongumen.nickolas.kpiweeks.views.GroupSearchView
+import com.dongumen.nickolas.kpiweeks.pages.groupSearch.models.Group
+import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.GroupSearchPresenter
+import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.GroupSearchView
 import com.dongumen.nickolas.kpiweeks.widgets.adapters.delegateAdapter.CompositeDelegateAdapter
 import com.dongumen.nickolas.kpiweeks.widgets.adapters.text.GroupsAdapter
 import kotlinx.android.synthetic.main.activity_group_search.*
 import kotlinx.android.synthetic.main.list_card.*
 
+const val NAME = "name"
 
 class GroupSearchActivity : MvpAppCompatActivity(), GroupSearchView {
 
     @InjectPresenter
-    lateinit var presenter: SearchPresenter
+    lateinit var presenter: GroupSearchPresenter
     private val adapter by lazy {
         CompositeDelegateAdapter.Builder<Group>()
                 .add(GroupsAdapter(this::onGroupClicked))
@@ -41,7 +42,6 @@ class GroupSearchActivity : MvpAppCompatActivity(), GroupSearchView {
         recycler_view.adapter = adapter
     }
 
-
     override fun onStart() {
         super.onStart()
         query.run {
@@ -51,7 +51,7 @@ class GroupSearchActivity : MvpAppCompatActivity(), GroupSearchView {
 
     private fun onGroupClicked(group: Group) {
         val intent = Intent()
-        intent.putExtra("name", group.id.toString())
+        intent.putExtra(NAME, group.id)
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

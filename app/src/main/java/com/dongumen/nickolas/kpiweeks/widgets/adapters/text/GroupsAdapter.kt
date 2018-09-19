@@ -1,7 +1,7 @@
 package com.dongumen.nickolas.kpiweeks.widgets.adapters.text
 
 import com.dongumen.nickolas.kpiweeks.R
-import com.dongumen.nickolas.kpiweeks.model.enteties.groups.Group
+import com.dongumen.nickolas.kpiweeks.pages.groupSearch.models.Group
 import com.dongumen.nickolas.kpiweeks.widgets.adapters.delegateAdapter.DelegateAdapter
 import com.mcxiaoke.koi.ext.onClick
 import kotlinx.android.synthetic.main.list_item_text.*
