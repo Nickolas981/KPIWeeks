@@ -1,20 +1,9 @@
 package com.dongumen.nickolas.kpiweeks.model.enteties
 
-import com.google.gson.GsonBuilder
 import com.google.gson.annotations.SerializedName
 
 data class Day(
-
-        @field:SerializedName("day_name")
-        var dayName: String? = null,
-
-        @field:SerializedName("day_number")
-        val dayNumber: Int? = null,
-
-        @field:SerializedName("lessons")
-        val lessons: MutableList<Lesson?>? = null
-) : Item {
-    override fun toString(): String {
-        return GsonBuilder().create().toJson(this)
-    }
-}
+        @SerializedName("day_name") var dayName: String,
+        @SerializedName("day_number") val dayNumber: Int,
+        @SerializedName("lessons") val lessons: MutableList<Lesson>
+)

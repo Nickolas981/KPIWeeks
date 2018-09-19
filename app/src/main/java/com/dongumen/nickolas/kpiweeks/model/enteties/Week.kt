@@ -6,23 +6,19 @@ class Week {
     var weekNumber = ""
     var days: MutableList<Day> = ArrayList()
 
-    fun addDay(day : Day){
+    fun addDay(day: Day) {
         days.add(day)
     }
 
 
-    fun getAsList() : MutableList<Item>{
-        val list : MutableList<Item> = ArrayList()
-
-        for (day in days){
-            list.add(HeaderItem(day.dayName!!))
-            list.add(day)
+    fun getAsList(): MutableList<Item> {
+        val list: MutableList<Item> = ArrayList()
+        days.forEach {
+            list.add(HeaderItem(it.dayName))
+            list.addAll(it.lessons)
         }
-        
         return list
     }
-
-
 
 
 }
