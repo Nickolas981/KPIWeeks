@@ -51,7 +51,7 @@ class GroupSearchActivity : MvpAppCompatActivity(), GroupSearchView {
 
     private fun onGroupClicked(group: Group) {
         val intent = Intent()
-        intent.putExtra("name", group.name)
+        intent.putExtra("name", group.id.toString())
         setResult(Activity.RESULT_OK, intent)
         finish()
     }

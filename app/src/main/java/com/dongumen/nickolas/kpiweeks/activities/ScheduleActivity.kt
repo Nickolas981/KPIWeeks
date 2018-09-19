@@ -93,9 +93,9 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
     private fun changeFragment(init: Bool, fragment: android.support.v4.app.Fragment) {
         val fragT = supportFragmentManager.beginTransaction()
         if (init.b) {
-            fragT.hide(currentFragment).show(fragment).commit()
+            fragT.hide(currentFragment).show(fragment).commitAllowingStateLoss()
         } else {
-            fragT.add(R.id.frame, fragment).commit()
+            fragT.add(R.id.frame, fragment).commitAllowingStateLoss()
             init.b = true
         }
         currentFragment = fragment

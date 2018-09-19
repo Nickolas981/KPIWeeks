@@ -9,7 +9,6 @@ import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import rx.Observable
 
 interface KpiApi {
     @GET(GROUPS)
@@ -18,5 +17,5 @@ interface KpiApi {
             : Deferred<Response<GroupResponse>>
 
     @GET(TIMETABLE)
-    fun getTimetable(@Path("group") group: String): Observable<ResponseBody>
+    fun getTimetable(@Path("group") group: String): Deferred<ResponseBody>
 }

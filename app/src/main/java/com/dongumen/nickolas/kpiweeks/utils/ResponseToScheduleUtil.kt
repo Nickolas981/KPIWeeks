@@ -42,8 +42,8 @@ class ResponseToScheduleUtil : KoinComponent {
         }
     }
 
-    fun parse(response: ResponseBody): MutableList<Week> {
-        var list: MutableList<Week> = ArrayList()
+    fun parse(response: ResponseBody): List<Week> {
+        var list = mutableListOf<Week>()
         val str = response.string()
         if (!str.contains("results")) {
             list = parseFromSharedPreference(str)
@@ -53,7 +53,6 @@ class ResponseToScheduleUtil : KoinComponent {
                     .asJsonObject
                     .getAsJsonObject("results")
                     .getAsJsonObject("weeks")
-
             list.add(parseWeek(json.getAsJsonObject("1")))
             list.add(parseWeek(json.getAsJsonObject("2")))
 
@@ -62,7 +61,7 @@ class ResponseToScheduleUtil : KoinComponent {
         return list
     }
 
-    fun parseFromSharedPreference(str: String) =
+    private fun parseFromSharedPreference(str: String) =
             GsonBuilder().create().fromJson<MutableList<Week>>(str, type)!!
 
     private fun writeIntoSharedPreference(list: MutableList<Week>) {

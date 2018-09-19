@@ -1,28 +1,30 @@
 package com.dongumen.nickolas.kpiweeks.presenters
 
-import com.dongumen.nickolas.kpiweeks.model.enteties.Week
+import android.util.Log
+import com.arellomobile.mvp.InjectViewState
 import com.dongumen.nickolas.kpiweeks.model.remote.IWeekDataSource
 import com.dongumen.nickolas.kpiweeks.utils.ResponseToScheduleUtil
-import com.dongumen.nickolas.kpiweeks.utils.rx.RxRetryWithDelay
 import com.dongumen.nickolas.kpiweeks.views.WeekView
+import kotlinx.coroutines.experimental.CommonPool
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.launch
 import org.koin.standalone.inject
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 
-
-class WeekPresenter: BasePresenter<WeekView>() {
+@InjectViewState
+class WeekPresenter : BasePresenter<WeekView>() {
     private val source: IWeekDataSource by inject()
     private val responseToScheduleUtil: ResponseToScheduleUtil by inject()
 
 
     fun getSchedule(group: String, week: Int) {
-        subscribe(source.getSchedule(group)
-                .retryWhen(RxRetryWithDelay())
-                .subscribeOn(Schedulers.io())
-                .map<MutableList<Week>> { responseToScheduleUtil.parse(it) }
-                .map { it[week].getAsList()  }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { view?.showSchedule(it) })
+        Log.d("WeekPresenter", "group:$group\tweek:$week")
+        launch(CommonPool) {
+            source.getSchedule(group)
+                    .await()
+                    .let { responseToScheduleUtil.parse(it) }
+                    .let { it[week] }.getAsList()
+                    .run { launch(UI) { view?.showSchedule(this@run) } }
+        }
     }
 
     fun deleteItem(week: Int, day: Int, lesson: Int) {
