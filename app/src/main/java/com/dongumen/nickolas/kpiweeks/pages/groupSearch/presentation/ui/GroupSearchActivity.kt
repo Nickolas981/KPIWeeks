@@ -7,13 +7,13 @@ import android.support.v7.widget.LinearLayoutManager
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.dongumen.nickolas.kpiweeks.R
+import com.dongumen.nickolas.kpiweeks.global.adapters.delegateAdapter.CompositeDelegateAdapter
+import com.dongumen.nickolas.kpiweeks.global.adapters.text.GroupsAdapter
 import com.dongumen.nickolas.kpiweeks.global.extentions.afterTextChanged
 import com.dongumen.nickolas.kpiweeks.global.extentions.setVisibility
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.models.Group
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.GroupSearchPresenter
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.GroupSearchView
-import com.dongumen.nickolas.kpiweeks.widgets.adapters.delegateAdapter.CompositeDelegateAdapter
-import com.dongumen.nickolas.kpiweeks.widgets.adapters.text.GroupsAdapter
 import kotlinx.android.synthetic.main.activity_group_search.*
 import kotlinx.android.synthetic.main.list_card.*
 

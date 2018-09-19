@@ -10,20 +10,20 @@ import android.view.ViewGroup
 import com.arellomobile.mvp.MvpAppCompatFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.dongumen.nickolas.kpiweeks.R
+import com.dongumen.nickolas.kpiweeks.global.adapters.delegateAdapter.CompositeDelegateAdapter
+import com.dongumen.nickolas.kpiweeks.global.adapters.week.WeekHeaderAdapter
+import com.dongumen.nickolas.kpiweeks.global.adapters.week.WeekLessonAdapter
 import com.dongumen.nickolas.kpiweeks.model.enteties.Item
+import com.dongumen.nickolas.kpiweeks.model.enteties.Lesson
 import com.dongumen.nickolas.kpiweeks.presenters.WeekPresenter
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
 import com.dongumen.nickolas.kpiweeks.views.WeekView
 import com.dongumen.nickolas.kpiweeks.widgets.FragmentChanger
-import com.dongumen.nickolas.kpiweeks.widgets.adapters.WeekAdapter
-import com.dongumen.nickolas.kpiweeks.widgets.adapters.delegateAdapter.CompositeDelegateAdapter
-import com.dongumen.nickolas.kpiweeks.widgets.adapters.week.WeekHeaderAdapter
-import com.dongumen.nickolas.kpiweeks.widgets.adapters.week.WeekLessonAdapter
 import kotlinx.android.synthetic.main.fragment_week.*
 import org.koin.android.ext.android.inject
 
 
-class WeekFragment : MvpAppCompatFragment(), WeekView, WeekAdapter.OnDeleteListener {
+class WeekFragment : MvpAppCompatFragment(), WeekView {
 
     var scroll = false
     @InjectPresenter
@@ -33,7 +33,7 @@ class WeekFragment : MvpAppCompatFragment(), WeekView, WeekAdapter.OnDeleteListe
     private val weekAdapter by lazy {
         CompositeDelegateAdapter.Builder<Item>()
                 .add(WeekHeaderAdapter())
-                .add(WeekLessonAdapter {})
+                .add(WeekLessonAdapter(this::delete))
                 .build()
     }
 
@@ -49,11 +49,6 @@ class WeekFragment : MvpAppCompatFragment(), WeekView, WeekAdapter.OnDeleteListe
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         fragmentChanger = context as FragmentChanger
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        presenter.view = this
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -83,8 +78,7 @@ class WeekFragment : MvpAppCompatFragment(), WeekView, WeekAdapter.OnDeleteListe
     }
 
 
-    override fun delete(day: Int, position: Int) {
-        presenter.deleteItem(week, day, position)
+    fun delete(lesson: Lesson) {
     }
 
     companion object {

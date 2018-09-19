@@ -1,8 +1,8 @@
 package com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation
 
 import com.arellomobile.mvp.InjectViewState
+import com.dongumen.nickolas.kpiweeks.global.presentation.BasePresenter
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.logic.GetGroupsUseCase
-import com.dongumen.nickolas.kpiweeks.presenters.BasePresenter
 import org.koin.standalone.inject
 
 @InjectViewState

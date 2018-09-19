@@ -1,8 +1,8 @@
-package com.dongumen.nickolas.kpiweeks.web.api
+package com.dongumen.nickolas.kpiweeks.persistence.web.api
 
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.models.GroupResponse
-import com.dongumen.nickolas.kpiweeks.web.GROUPS
-import com.dongumen.nickolas.kpiweeks.web.TIMETABLE
+import com.dongumen.nickolas.kpiweeks.persistence.web.GROUPS
+import com.dongumen.nickolas.kpiweeks.persistence.web.TIMETABLE
 import kotlinx.coroutines.experimental.Deferred
 import okhttp3.ResponseBody
 import retrofit2.Response

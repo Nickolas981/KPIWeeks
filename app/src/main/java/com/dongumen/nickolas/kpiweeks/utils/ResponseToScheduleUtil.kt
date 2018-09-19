@@ -8,7 +8,7 @@ import okhttp3.ResponseBody
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 
-
+//TODO: Create mapper instead of it
 class ResponseToScheduleUtil : KoinComponent {
 
     private val sharedPref: SharedPreferenceUtils by inject()

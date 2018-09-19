@@ -1,8 +1,8 @@
 package com.dongumen.nickolas.kpiweeks.model.remote
 
 import com.dongumen.nickolas.kpiweeks.model.enteties.Week
+import com.dongumen.nickolas.kpiweeks.persistence.web.api.KpiApi
 import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
-import com.dongumen.nickolas.kpiweeks.web.api.KpiApi
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
 

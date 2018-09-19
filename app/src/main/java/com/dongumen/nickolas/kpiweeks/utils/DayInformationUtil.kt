@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-
+//TODO: Replace with extensions
 class DayInformationUtil {
 
 

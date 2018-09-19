@@ -3,7 +3,7 @@ package com.dongumen.nickolas.kpiweeks.widgets.holders
 import android.view.View
 import kotlinx.android.synthetic.main.custom_toolbar.view.*
 
-
+//TODO :  Remove this
 class MyToolbarHolder(var v:View) {
     val backButton  = this.v.back_button
     val title  = this.v.toolbar_title

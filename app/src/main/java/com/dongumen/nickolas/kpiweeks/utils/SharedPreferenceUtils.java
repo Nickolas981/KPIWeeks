@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+//TODO : Replace with simple sharedPreferences or Room database
 public class SharedPreferenceUtils {
     @SuppressLint("StaticFieldLeak")
     private static SharedPreferenceUtils mSharedPreferenceUtils;

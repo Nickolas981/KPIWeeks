@@ -10,7 +10,6 @@ import com.dongumen.nickolas.kpiweeks.fragments.WeekFragment
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.ui.GroupSearchActivity
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
 import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
-import com.dongumen.nickolas.kpiweeks.utils.WidgetUpdate
 import com.dongumen.nickolas.kpiweeks.widgets.FragmentChanger
 import com.dongumen.nickolas.kpiweeks.widgets.holders.MyToolbarHolder
 import org.koin.android.ext.android.inject
@@ -43,7 +42,6 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
             fragmentManager.beginTransaction()
                     .remove(fragmentManager.findFragmentById(R.id.frame)).commit()
             deletePreferences()
-            WidgetUpdate.updateWidget(applicationContext)
             startSearch()
         }
         if (name == "") {
