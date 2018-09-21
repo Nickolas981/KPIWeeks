@@ -3,10 +3,10 @@ package com.dongumen.nickolas.kpiweeks.global.adapters.week
 import android.view.View
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.global.adapters.delegateAdapter.DelegateAdapter
+import com.dongumen.nickolas.kpiweeks.global.extentions.onClick
 import com.dongumen.nickolas.kpiweeks.model.enteties.Item
 import com.dongumen.nickolas.kpiweeks.model.enteties.Lesson
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
-import com.mcxiaoke.koi.ext.onClick
 import kotlinx.android.synthetic.main.lesson_view.*
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
