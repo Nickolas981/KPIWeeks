@@ -15,5 +15,4 @@ class GroupSearchPresenter : BasePresenter<GroupSearchView>() {
             viewState.showPredictions(it)
         }
     }
-
 }

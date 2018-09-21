@@ -1,12 +1,11 @@
 package com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.ui
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.arellomobile.mvp.MvpAppCompatActivity
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.dongumen.nickolas.kpiweeks.R
+import com.dongumen.nickolas.kpiweeks.activities.ScheduleActivity
 import com.dongumen.nickolas.kpiweeks.global.adapters.delegateAdapter.CompositeDelegateAdapter
 import com.dongumen.nickolas.kpiweeks.global.adapters.text.GroupsAdapter
 import com.dongumen.nickolas.kpiweeks.global.extentions.afterTextChanged
@@ -16,6 +15,8 @@ import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.GroupSearch
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.GroupSearchView
 import kotlinx.android.synthetic.main.activity_group_search.*
 import kotlinx.android.synthetic.main.list_card.*
+import org.jetbrains.anko.defaultSharedPreferences
+import org.jetbrains.anko.startActivity
 
 const val NAME = "name"
 
@@ -50,9 +51,8 @@ class GroupSearchActivity : MvpAppCompatActivity(), GroupSearchView {
     }
 
     private fun onGroupClicked(group: Group) {
-        val intent = Intent()
-        intent.putExtra(NAME, group.id)
-        setResult(Activity.RESULT_OK, intent)
+        defaultSharedPreferences.edit().putString(NAME, group.id.toString()).apply()
+        startActivity<ScheduleActivity>()
         finish()
     }
 }

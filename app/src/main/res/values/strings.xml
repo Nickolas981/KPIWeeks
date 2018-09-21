@@ -7,5 +7,6 @@
     <string name="kpi_weeks">KPI Weeks</string>
     <string name="input_group">Введіть назву групи</string>
     <string name="language_hint">Українською мовою, через дефіз</string>
+    <string name="exit">Вийти</string>
 
 </resources>

@@ -9,9 +9,9 @@ import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.fragments.WeekFragment
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.ui.GroupSearchActivity
 import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
-import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
 import com.dongumen.nickolas.kpiweeks.widgets.FragmentChanger
 import com.dongumen.nickolas.kpiweeks.widgets.holders.MyToolbarHolder
+import org.jetbrains.anko.defaultSharedPreferences
 import org.koin.android.ext.android.inject
 
 class ScheduleActivity : AppCompatActivity(), FragmentChanger {
@@ -19,9 +19,10 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
     private lateinit var myToolbar: MyToolbarHolder
     private val firstInit = Bool()
     private val secondInit = Bool()
-    private val sharedPreferenceUtils: SharedPreferenceUtils by inject()
     private val dayInformationUtil: DayInformationUtil by inject()
-    private var name: String = sharedPreferenceUtils.getStringValue("name", "")
+    private val name: String by lazy {
+        defaultSharedPreferences.getString("name", "")
+    }
     private val fragment1: WeekFragment by lazy {
         WeekFragment.newInstance(0, name)
     }
@@ -35,20 +36,16 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_schedule)
         myToolbar = MyToolbarHolder(findViewById<View>(android.R.id.content))
-        myToolbar.buttonText.text = "Вийти"
+        myToolbar.buttonText.text = getString(R.string.exit)
         myToolbar.backButton.setOnClickListener {
             firstInit.b = false
             secondInit.b = false
             fragmentManager.beginTransaction()
                     .remove(fragmentManager.findFragmentById(R.id.frame)).commit()
-            deletePreferences()
+            clearPreferences()
             startSearch()
         }
-        if (name == "") {
-            startSearch()
-        } else {
-            startAction()
-        }
+        startAction()
     }
 
     private fun startSearch() {
@@ -79,15 +76,6 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        data?.let {
-            val bundle = it.extras
-            name = bundle.getString("name")
-            savePreferences()
-            startAction()
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
 
     private fun changeFragment(init: Bool, fragment: android.support.v4.app.Fragment) {
         val fragT = supportFragmentManager.beginTransaction()
@@ -100,12 +88,8 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
         currentFragment = fragment
     }
 
-    private fun savePreferences() {
-        sharedPreferenceUtils.setValue("name", name)
-    }
-
-    private fun deletePreferences() {
-        sharedPreferenceUtils.clear()
+    private fun clearPreferences() {
+        defaultSharedPreferences.edit().clear().apply()
     }
 
     override fun change() {
