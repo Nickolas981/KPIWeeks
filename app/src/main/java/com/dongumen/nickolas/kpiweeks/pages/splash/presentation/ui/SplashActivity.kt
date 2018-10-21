@@ -1,7 +1,7 @@
 package com.dongumen.nickolas.kpiweeks.pages.splash.presentation.ui
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.dongumen.nickolas.kpiweeks.activities.ScheduleActivity
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.ui.GroupSearchActivity
 import org.jetbrains.anko.defaultSharedPreferences

@@ -2,9 +2,8 @@ package com.dongumen.nickolas.kpiweeks.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.dongumen.nickolas.kpiweeks.R
 import com.dongumen.nickolas.kpiweeks.fragments.WeekFragment
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.ui.GroupSearchActivity
@@ -29,7 +28,7 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
     private val fragment2: WeekFragment by lazy {
         WeekFragment.newInstance(1, name)
     }
-    private lateinit var currentFragment: Fragment
+    private lateinit var currentFragment: androidx.fragment.app.Fragment
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,7 +76,7 @@ class ScheduleActivity : AppCompatActivity(), FragmentChanger {
     }
 
 
-    private fun changeFragment(init: Bool, fragment: android.support.v4.app.Fragment) {
+    private fun changeFragment(init: Bool, fragment: androidx.fragment.app.Fragment) {
         val fragT = supportFragmentManager.beginTransaction()
         if (init.b) {
             fragT.hide(currentFragment).show(fragment).commitAllowingStateLoss()
