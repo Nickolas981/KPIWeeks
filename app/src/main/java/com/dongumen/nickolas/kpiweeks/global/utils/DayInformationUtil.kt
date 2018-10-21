@@ -1,4 +1,4 @@
-package com.dongumen.nickolas.kpiweeks.utils
+package com.dongumen.nickolas.kpiweeks.global.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat

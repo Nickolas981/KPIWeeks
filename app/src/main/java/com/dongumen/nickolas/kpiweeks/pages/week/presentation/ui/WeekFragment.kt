@@ -1,4 +1,4 @@
-package com.dongumen.nickolas.kpiweeks.fragments
+package com.dongumen.nickolas.kpiweeks.pages.week.presentation.ui
 
 
 import android.content.Context
@@ -6,28 +6,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.arellomobile.mvp.MvpAppCompatFragment
-import com.arellomobile.mvp.presenter.InjectPresenter
 import com.dongumen.nickolas.kpiweeks.R
-import com.dongumen.nickolas.kpiweeks.global.adapters.week.WeekLessonAdapter
+import com.dongumen.nickolas.kpiweeks.global.delegateAdapter.CompositeDelegateAdapter
+import com.dongumen.nickolas.kpiweeks.global.liteMoxy.MvpFragment
+import com.dongumen.nickolas.kpiweeks.global.utils.DayInformationUtil
 import com.dongumen.nickolas.kpiweeks.model.enteties.Item
 import com.dongumen.nickolas.kpiweeks.model.enteties.Lesson
-import com.dongumen.nickolas.kpiweeks.presenters.WeekPresenter
-import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
-import com.dongumen.nickolas.kpiweeks.views.WeekView
+import com.dongumen.nickolas.kpiweeks.pages.week.presentation.WeekPresenter
+import com.dongumen.nickolas.kpiweeks.views.WeekEvents
 import com.dongumen.nickolas.kpiweeks.widgets.FragmentChanger
+import kotlinx.android.synthetic.main.fragment_week.*
+import org.koin.android.ext.android.inject
 
 
-class WeekFragment : MvpAppCompatFragment(), WeekView {
+class WeekFragment : MvpFragment<WeekEvents>() {
 
     var scroll = false
-    @InjectPresenter
-    lateinit var presenter: WeekPresenter
+    override val presenter by inject<WeekPresenter>()
+
     private val dayInformationUtil: DayInformationUtil by inject()
+
+    override fun update(event: WeekEvents) = when (event) {
+        is WeekEvents.ShowSchedule -> showSchedule(event.schedule)
+    }
 
     private val weekAdapter by lazy {
         CompositeDelegateAdapter.Builder<Item>()
-                .add(WeekHeaderAdapter())
                 .add(WeekLessonAdapter(this::delete))
                 .build()
     }
@@ -35,10 +39,10 @@ class WeekFragment : MvpAppCompatFragment(), WeekView {
     private lateinit var fragmentChanger: FragmentChanger
 
     private val week: Int by lazy {
-        arguments.getInt("weekNumber") ?: 0
+        arguments?.getInt("weekNumber") ?: 0
     }
     private val name: String by lazy {
-        arguments.getString("name", "") ?: ""
+        arguments?.getString("name", "") ?: ""
     }
 
     override fun onAttach(context: Context?) {
@@ -67,7 +71,7 @@ class WeekFragment : MvpAppCompatFragment(), WeekView {
     }
 
 
-    override fun showSchedule(schedule: List<Item>) {
+    private fun showSchedule(schedule: List<Item>) {
         weekAdapter.swapData(schedule)
         scroll()
     }

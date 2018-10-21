@@ -1,6 +1,10 @@
 package com.dongumen.nickolas.kpiweeks.di
 
-import android.content.Context
+import com.dongumen.nickolas.kpiweeks.global.group.GroupManager
+import com.dongumen.nickolas.kpiweeks.global.group.SharedPrefsGroupManager
+import com.dongumen.nickolas.kpiweeks.global.utils.DayInformationUtil
+import com.dongumen.nickolas.kpiweeks.global.utils.ResponseToScheduleUtil
+import com.dongumen.nickolas.kpiweeks.global.utils.SharedPreferenceUtils
 import com.dongumen.nickolas.kpiweeks.model.remote.IWeekDataSource
 import com.dongumen.nickolas.kpiweeks.model.remote.WeekDataSource
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.logic.GetGroupsUseCase
@@ -8,12 +12,12 @@ import com.dongumen.nickolas.kpiweeks.pages.groupSearch.persistence.DefaultGroup
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.persistence.GroupsDataSource
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.persistence.GroupsRepository
 import com.dongumen.nickolas.kpiweeks.pages.groupSearch.persistence.web.RetrofitGroupsDataSource
+import com.dongumen.nickolas.kpiweeks.pages.groupSearch.presentation.GroupSearchPresenter
+import com.dongumen.nickolas.kpiweeks.pages.week.presentation.WeekPresenter
 import com.dongumen.nickolas.kpiweeks.persistence.web.BASE_URL
 import com.dongumen.nickolas.kpiweeks.persistence.web.api.KpiApi
-import com.dongumen.nickolas.kpiweeks.utils.DayInformationUtil
-import com.dongumen.nickolas.kpiweeks.utils.ResponseToScheduleUtil
-import com.dongumen.nickolas.kpiweeks.utils.SharedPreferenceUtils
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.experimental.CoroutineCallAdapterFactory
+import org.jetbrains.anko.defaultSharedPreferences
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module.module
 import retrofit2.Retrofit
@@ -36,7 +40,8 @@ val apiModule = module {
 
 val appModule = module {
     single { Executors.newCachedThreadPool(); }
-    single { androidContext().getSharedPreferences(androidContext().packageName, Context.MODE_PRIVATE) }
+    single { SharedPrefsGroupManager(get()) as GroupManager }
+    single { androidContext().defaultSharedPreferences }
 }
 
 val utilModule = module {
@@ -57,3 +62,9 @@ val dataSourceModule = module {
 val useCaseModule = module {
     single { GetGroupsUseCase(get()) }
 }
+
+val presentersModule = module {
+    single { WeekPresenter() }
+    single { GroupSearchPresenter() }
+}
+

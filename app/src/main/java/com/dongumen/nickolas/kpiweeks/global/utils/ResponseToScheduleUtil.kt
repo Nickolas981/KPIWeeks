@@ -1,4 +1,4 @@
-package com.dongumen.nickolas.kpiweeks.utils
+package com.dongumen.nickolas.kpiweeks.global.utils
 
 import com.dongumen.nickolas.kpiweeks.model.enteties.Day
 import com.dongumen.nickolas.kpiweeks.model.enteties.Week
@@ -36,7 +36,7 @@ class ResponseToScheduleUtil : KoinComponent {
             val dates = dayInfo.getDates(week.weekNumber.toInt() - 1)
             for (i in 0..5) {
                 val day = week.days[i]
-                day.dayName = day.dayName!!.split(" ".toRegex())[0]
+                day.dayName = day.dayName.split(" ".toRegex())[0]
                 day.dayName += " " + dates[i]
             }
         }
@@ -71,7 +71,7 @@ class ResponseToScheduleUtil : KoinComponent {
     fun delete(week: Int, day: Int, lesson: Int) {
         val str = sharedPref.getStringValue("json", "")
         val res = parseFromSharedPreference(str)
-        res[week].days[day].lessons!!.removeAt(lesson)
+        res[week].days[day].lessons.removeAt(lesson)
         writeIntoSharedPreference(res)
     }
 }

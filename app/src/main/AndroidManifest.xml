@@ -24,7 +24,7 @@
             android:theme="@style/GroupSearch" />
 
         <activity
-            android:name=".activities.ScheduleActivity"
+            android:name=".pages.schedule.presentation.ui.ScheduleActivity"
             android:screenOrientation="portrait" />
 
         <activity

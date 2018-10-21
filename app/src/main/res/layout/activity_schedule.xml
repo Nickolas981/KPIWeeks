@@ -4,11 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.dongumen.nickolas.kpiweeks.activities.ScheduleActivity">
-    <include layout="@layout/custom_toolbar"/>
-    <FrameLayout
+    tools:context="com.dongumen.nickolas.kpiweeks.pages.schedule.presentation.ui.ScheduleActivity">
+
+    <include layout="@layout/custom_toolbar" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_pager"
         android:layout_width="match_parent"
-        android:id="@+id/frame"
         android:layout_height="match_parent" />
 
 </LinearLayout>

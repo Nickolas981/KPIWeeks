@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:contentDescription="BackButton"
-                android:src="@drawable/ic_chevron_left_black_24dp"
+                app:srcCompat="@drawable/ic_chevron_left_black_24dp"
                 android:tint="@color/white" />
 
             <TextView
@@ -52,7 +52,6 @@
             android:fontFamily="@font/roboto_light"
             android:gravity="center"
             android:orientation="horizontal"
-            android:text="ІП-53"
             android:textColor="@color/white"
             android:visibility="visible" />
 
